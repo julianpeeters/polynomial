@@ -24,6 +24,8 @@ inThisBuild(List(
   versionScheme := Some("semver-spec"),
 ))
 
+lazy val root = project.in(file("."))
+
 lazy val poly = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/poly"))
   .settings(
@@ -32,3 +34,15 @@ lazy val poly = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       "org.typelevel" %%% "cats-core" % "2.10.0"
     )
   )
+
+lazy val docs = project.in(file("docs/gitignored"))
+  .settings(
+    mdocOut := root.base,
+    mdocVariables := Map(
+      "SCALA" -> crossScalaVersions.value.map(e => e.takeWhile(_ != '.')).mkString(", "),
+      "VERSION" -> version.value.takeWhile(_ != '+'),
+    )
+  )
+  .dependsOn(poly.jvm)
+  .enablePlugins(MdocPlugin)
+  .enablePlugins(NoPublishPlugin)
