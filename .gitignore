@@ -15,14 +15,15 @@ project/plugins/project/
 
 # Scala-IDE specific
 .scala_dependencies
-.worksheet
-.vscode/
 .bloop/
 .bsp/
-.metals/
 .ensime_cache/
-*metals.sbt
 .idea
+.metals/
+.scala-build/
+.worksheet
+.vscode/
+*metals.sbt
 _site/
 
 # mac
