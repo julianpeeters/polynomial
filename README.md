@@ -1,2 +1,3 @@
 # polynomial
-The category of Poly, simply typed.
+
+Polynomial functors in the style of [Niu and Spivak](https://topos.site/poly-book.pdf)
