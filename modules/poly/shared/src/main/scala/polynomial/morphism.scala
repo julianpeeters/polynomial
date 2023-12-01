@@ -1,8 +1,10 @@
 package polynomial
 
+import polynomial.functor.{Dir, Pos}
+
 object morphism:
 
-  type ~>[P[_], Q[_]] = [A] =>> PolyMap[P, Q, A]
+  type ~>[P[_], Q[_]] = PolyMap[P, Q, _]
 
   abstract class PolyMap[P[_], Q[_], Y]:
     def φ: PolyMap.Phi[Pos[P, Y], Pos[Q, Y]]
@@ -19,5 +21,3 @@ object morphism:
     type PhiSharp[PosP, DirQ, DirP] = (PosP, DirQ, DirP) match
       case (s1, (a1, a2), s2) => ((s1, a1) => s2, (s1, a2) => s2)
       case (s1, a, s2)        => (s1, a) => s2
-      
-
