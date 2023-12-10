@@ -21,7 +21,9 @@ object morphism:
         def `φ#`: PhiSharp[P, Q, Y] = phiSharp
     
     extension [S, A1, B1, Y] (p: PolyMap[Store[S, _], Monomial[A1, B1, _], Y])
-      def andThen[A2, B2](w: PolyMap[Monomial[A1, B1, _], Monomial[A2, B2, _], Y]): PolyMap[PolyMap[Store[S, _], Monomial[A1, B1, _], _], Monomial[A2, B2, _], Y] =
+      def andThen[A2, B2](
+        w: PolyMap[Monomial[A1, B1, _], Monomial[A2, B2, _], Y]
+      ): PolyMap[PolyMap[Store[S, _], Monomial[A1, B1, _], _], Monomial[A2, B2, _], Y] =
         new PolyMap[PolyMap[Store[S, _], Monomial[A1, B1, _], _], Monomial[A2, B2, _], Y]:
           def φ: PolyMap.Phi[PolyMap[Store[S, _], Monomial[A1, B1, _], _], Monomial[A2, B2, _], Y] =
             p.φ.andThen(w.φ)
@@ -33,7 +35,8 @@ object morphism:
       case (Monomial[a1, b1, Y], Monomial[a2, b2, Y])                          => b1 => b2
       case (Store[s, Y], Monomial[a, b, Y])                                    => s => b
       case (Store[s, Y], Binomial[a1, b1, a2, b2, Y])                          => (s => b1, s => b2)
-
+      case (Monomial[(a1, a2), (b1, b2), Y], Monomial[a3, b3, Y])              => (b1, b2) => b3
+ 
     type PhiSharp[P[_], Q[_], Y] = (P[Y], Q[Y]) match
       case (PolyMap[Store[s, _], Monomial[a1, b1, _], Y], Monomial[a2, b2, Y]) => (s, a2) => s
       case (Monomial[a1, b1, Y], Monomial[a2, b2, Y])                          => (b1, a2) => a1
