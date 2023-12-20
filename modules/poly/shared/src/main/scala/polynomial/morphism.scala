@@ -79,3 +79,26 @@ object morphism:
               (s, a1) => p.`φ#`._1(s, (a1, f(s._2))),
               (s, a2) =>  p.`φ#`._2(s, (a2, g(s._1)))
             )
+    
+    extension [S, A1, B1, A2, B2, Y] (p: PolyMap[Store[S, _], Binomial[A1, B1, A2, B2, _], Y])
+
+      def swapInterfaceDir: PolyMap[Store[S, _], Binomial[A1, B2, A2, B1, _], Y] =
+        new PolyMap[Store[S, _], Binomial[A1, B2, A2, B1, _], Y]:
+          def φ: Phi[(Store[S, _]), (Binomial[A1, B2, A2, B1, _]), Y] =
+            p.φ.swap
+          def `φ#`: PhiSharp[(Store[S, _]), (Binomial[A1, B2, A2, B1, _]), Y] =
+            p.`φ#`
+
+      def swapInterfacePos: PolyMap[Store[S, _], Binomial[A2, B1, A1, B2, _], Y] =
+        new PolyMap[Store[S, _], Binomial[A2, B1, A1, B2, _], Y]:
+          def φ: Phi[(Store[S, _]), (Binomial[A2, B1, A1, B2, _]), Y] =
+            p.φ
+          def `φ#`: PhiSharp[(Store[S, _]), (Binomial[A2, B1, A1, B2, _]), Y] =
+            p.`φ#`.swap
+
+      def swapModes: PolyMap[Store[S, _], Binomial[A2, B2, A1, B1, _], Y] =
+        new PolyMap[Store[S, _], Binomial[A2, B2, A1, B1, _], Y]:
+          def φ: Phi[(Store[S, _]), (Binomial[A2, B2, A1, B1, _]), Y] =
+            p.φ.swap
+          def `φ#`: PhiSharp[(Store[S, _]), (Binomial[A2, B2, A1, B1, _]), Y] =
+            p.`φ#`.swap

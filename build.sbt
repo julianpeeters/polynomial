@@ -1,3 +1,4 @@
+val CatsV = "2.10.0"
 inThisBuild(List(
   crossScalaVersions := Seq(scalaVersion.value),
   description := "The category of Poly, simply typed.",
@@ -30,7 +31,7 @@ lazy val poly = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
     name := "polynomial",
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "cats-core" % "2.10.0"
+      "org.typelevel" %%% "cats-core" % CatsV
     )
   )
 
@@ -38,6 +39,7 @@ lazy val docs = project.in(file("docs/gitignored"))
   .settings(
     mdocOut := file("."),
     mdocVariables := Map(
+      "CATS" -> CatsV.reverse.dropWhile(_ != '.').reverse,
       "SCALA" -> crossScalaVersions.value.map(e => e.takeWhile(_ != '.')).mkString(", "),
       "VERSION" -> version.value.takeWhile(_ != '+'),
     )
