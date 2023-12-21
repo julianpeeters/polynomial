@@ -7,7 +7,7 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - depends on cats @CATS@ (for the `Store` monomial)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.0.0"
+"com.julianpeeters" %% "polynomial" % @VERSION@
 ```
 
 ### Modules

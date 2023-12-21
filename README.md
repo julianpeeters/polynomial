@@ -7,7 +7,7 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - depends on cats 2.10 (for the `Store` monomial)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.0.0"
+"com.julianpeeters" %% "polynomial" % 0.1.0
 ```
 
 ### Modules
@@ -33,8 +33,6 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 ```
 
 #### `polynomial-mermaid`
-
-Certain lenses lend themselves to graphical interpretation:
 
 ```scala
 import polynomial.`object`.{Store, Monomial}
