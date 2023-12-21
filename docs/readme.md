@@ -34,6 +34,9 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 
 #### `polynomial-mermaid`
 
+Certain lenses can be interpreted graphically. Given a `Mermaid` instance for a
+a `PolyMap`, a mermaid chart definition can be printed:
+
 ```scala mdoc:reset
 import polynomial.`object`.{Store, Monomial}
 import polynomial.mermaid.Mermaid
@@ -49,7 +52,8 @@ import polynomial.`object`.{Store, Monomial}
 import polynomial.mermaid.Mermaid
 import polynomial.morphism.~>
 
-type P[Y] = (Store[String, _] ~> Monomial[Char, Unit, _])[Y]
+type P[Y] = (Store[Int, _] ~> Monomial[Char, Unit, _])[Y]
 
 println(s"${summon[Mermaid[P]].showSpecific}")
 ```
+(Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
