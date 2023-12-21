@@ -12,6 +12,7 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 
 ### Modules
  - [`polynomial`](#polynomial-1): objects, morphisms, products
+ - [`polynomial-mermaid`](#polynomial-mermaid): generate mermaid chart definitions
 
 #### `polynomial`
 
