@@ -7,7 +7,7 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - depends on cats @CATS@ (for the `Store` monomial)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.0.0"
+"com.julianpeeters" %% "polynomial" % "@VERSION@"
 ```
 
 ### Modules
@@ -16,19 +16,40 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 #### `polynomial`
 
 The `polynomial` library provides the following implementation of poly:
- - objects: built-in ADTs representing `Monomial`, `Binomial`, `Trinomial` functors
+ - objects: built-in ADTs representing `Monomial`, `Binomial`, `Trinomial`, and `Store` functors
  - morphisms: `PolyMap`, a natural transformation between polynomial functors
- - products: `Tensor`, a type match on functors, yielding their Day convolution
+ - products: `Tensor`, a type match on functors, yielding a parallel product
 
 ```scala mdoc
-import polynomial.`object`.Monomial
+import polynomial.`object`.{Binomial, Monomial, Store}
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type Plant[Y]      = Monomial[(Byte, Byte => Char), Char, Y]
-type Controller[Y] = Monomial[Char, Byte => Char, Y]
-type System[Y]     = Monomial[Byte, Byte => Char, Y]
-
-type ω[Y] = ((Plant ⊗ Controller) ~> System)[Y]
+type `2y²`             = Store[Boolean, _]
+type `2y⁵¹²`           = Monomial[(Byte, Boolean), Boolean, _]
+type `y² + 2y`         = Binomial[Boolean, Unit, Unit, Boolean, _]
+type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
+type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 ```
-<small>(Note: example adapted from the poly book, by [Niu and Spivak](https://topos.site/poly-book.pdf))</small>
+
+#### `polynomial-mermaid`
+
+```scala mdoc:reset
+import polynomial.`object`.{Store, Monomial}
+import polynomial.mermaid.Mermaid
+import polynomial.morphism.~>
+
+type P[Y] = (Store[Int, _] ~> Monomial[Char, Unit, _])[Y]
+
+println(s"${summon[Mermaid[P]].showSpecific}")
+```
+
+```scala mdoc:reset:passthrough
+import polynomial.`object`.{Store, Monomial}
+import polynomial.mermaid.Mermaid
+import polynomial.morphism.~>
+
+type P[Y] = (Store[String, _] ~> Monomial[Char, Unit, _])[Y]
+
+println(s"${summon[Mermaid[P]].showSpecific}")
+```

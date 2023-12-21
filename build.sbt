@@ -35,6 +35,11 @@ lazy val poly = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     )
   )
 
+lazy val mermaid = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+  .in(file("modules/mermaid"))
+  .settings(name := "polynomial-mermaid")
+  .dependsOn(poly)
+
 lazy val docs = project.in(file("docs/gitignored"))
   .settings(
     mdocOut := file("."),
@@ -44,6 +49,6 @@ lazy val docs = project.in(file("docs/gitignored"))
       "VERSION" -> version.value.takeWhile(_ != '+'),
     )
   )
-  .dependsOn(poly.jvm)
+  .dependsOn(poly.jvm, mermaid.jvm)
   .enablePlugins(MdocPlugin)
   .enablePlugins(NoPublishPlugin)
