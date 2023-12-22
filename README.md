@@ -45,7 +45,7 @@ import polynomial.morphism.~>
 
 type P[Y] = (Store[Int, _] ~> Monomial[Char, Unit, _])[Y]
 
-println(s"${summon[Mermaid[P]].showSpecific}")
+println(summon[Mermaid[P]].showSpecific)
 // ```mermaid
 // graph LR;
 //   A[Char]:::hidden-->|Char|S[Int]-->|Unit|B[Unit]:::hidden;

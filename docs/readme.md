@@ -45,7 +45,7 @@ import polynomial.morphism.~>
 
 type P[Y] = (Store[Int, _] ~> Monomial[Char, Unit, _])[Y]
 
-println(s"${summon[Mermaid[P]].showSpecific}")
+println(summon[Mermaid[P]].showSpecific)
 ```
 
 ```scala mdoc:reset:passthrough
@@ -55,6 +55,6 @@ import polynomial.morphism.~>
 
 type P[Y] = (Store[Int, _] ~> Monomial[Char, Unit, _])[Y]
 
-println(s"${summon[Mermaid[P]].showSpecific}")
+println(summon[Mermaid[P]].showSpecific)
 ```
 (Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
