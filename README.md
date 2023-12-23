@@ -48,12 +48,52 @@ type P[Y] = (Store[Int, _] ~> Monomial[Char, Unit, _])[Y]
 println(summon[Mermaid[P]].showSpecific)
 // ```mermaid
 // graph LR;
-//   A[Char]:::hidden-->|Char|S[Int]-->|Unit|B[Unit]:::hidden;
+//   A:::hidden-->|A|S-->|B|B:::hidden;
 // ```
 ```
 
 ```mermaid
 graph LR;
-  A[Char]:::hidden-->|Char|S[Int]-->|Unit|B[Unit]:::hidden;
+  A:::hidden-->|A|S-->|B|B:::hidden;
 ```
 (Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```scala
+import polynomial.`object`.Monomial
+import polynomial.mermaid.Mermaid
+import polynomial.morphism.~>
+import polynomial.product.⊗
+
+type Plant[Y]      = Monomial[(Byte, Byte => Char), Char, Y]
+type Controller[Y] = Monomial[Char, Byte => Char, Y]
+type System[Y]     = Monomial[Byte, Byte => Char, Y]
+type ω[Y] = ((Plant ⊗ Controller) ~> System)[Y]
+
+// println(summon[Mermaid[(Monomial[(Byte, Byte => Char), Char, _] ⊗ Monomial[Char, Byte => Char, _]) ~> Monomial[Byte, Byte => Char, _]]].showGeneric)
+println(summon[Mermaid[(Plant ⊗ Controller) ~> System]].showGeneric)
+// ```mermiad
+// graph LR;
+//   A:::hidden ----|A|P[ ]:::hole
+//   subgraph System[ ]
+//       P & Q[ ]:::hole ---|C|Split[ ]:::empty
+//       Q ---|B|P
+//   end
+//   Split --- E:::hidden
+//   classDef empty width:0px,height:0px;
+//   classDef hole fill:background;
+// ```
+```
