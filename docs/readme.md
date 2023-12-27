@@ -79,11 +79,12 @@ import polynomial.mermaid.Mermaid
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type Plant[Y]      = Monomial[(Byte, Byte => Char), Char, Y]
+class Plant[Y](in: ((Byte, Byte => Char)) => Y, out: Char) extends Monomial[(Byte, Byte => Char), Char, Y](in, out)
 type Controller[Y] = Monomial[Char, Byte => Char, Y]
 type System[Y]     = Monomial[Byte, Byte => Char, Y]
 type ω[Y] = ((Plant ⊗ Controller) ~> System)[Y]
 
 // println(summon[Mermaid[(Monomial[(Byte, Byte => Char), Char, _] ⊗ Monomial[Char, Byte => Char, _]) ~> Monomial[Byte, Byte => Char, _]]].showGeneric)
-println(summon[Mermaid[(Plant ⊗ Controller) ~> System]].showGeneric)
+println(summon[Mermaid[(Plant ⊗ Monomial[Char, Byte => Char, _]) ~> Monomial[Byte, Byte => Char, _]]].showGeneric)
+// println(summon[Mermaid[(Plant ⊗ Controller) ~> System]].showGeneric)
 ```

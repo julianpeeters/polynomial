@@ -11,6 +11,15 @@ trait Mermaid[P[_]]:
 
 object Mermaid:
 
+
+
+
+  
+
+
+
+
+
   trait MermaidP[P[_]]:
     def showGeneric: String
     def showSpecific: String
@@ -70,6 +79,8 @@ object Mermaid:
       def showSpecific: String =
         s"""|```mermaid
             |graph LR;
+            |  ${typeName[Option[String]]}
+            |
             |  ${Q.showGeneric(P.showGeneric)}
             |```""".stripMargin
 
@@ -108,7 +119,7 @@ object Mermaid:
 
   given mealyTensoredMonoToMono[A, C](using
     A: ClassTag[A],
-    C: ClassTag[C]
+    C: ClassTag[C],
   ): Mermaid[(Monomial[(A, A => C), C, _] ⊗ Monomial[C, A => C, _]) ~> Monomial[A, A => C, _]] =
     new Mermaid[(Monomial[(A, A => C), C, _] ⊗ Monomial[C, A => C, _]) ~> Monomial[A, A => C, _]]:
       def showGeneric: String =

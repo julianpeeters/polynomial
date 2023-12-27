@@ -48,12 +48,16 @@ type P[Y] = (Store[Int, _] ~> Monomial[Char, Unit, _])[Y]
 println(summon[Mermaid[P]].showSpecific)
 // ```mermaid
 // graph LR;
+//   Option
+// 
 //   A:::hidden-->|A|S-->|B|B:::hidden;
 // ```
 ```
 
 ```mermaid
 graph LR;
+  Option
+
   A:::hidden-->|A|S-->|B|B:::hidden;
 ```
 (Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
@@ -78,13 +82,12 @@ import polynomial.mermaid.Mermaid
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type Plant[Y]      = Monomial[(Byte, Byte => Char), Char, Y]
-type Controller[Y] = Monomial[Char, Byte => Char, Y]
-type System[Y]     = Monomial[Byte, Byte => Char, Y]
+class Plant[Y](in: ((Byte, Byte )=> Char) => Y, out: Char) extends Monomial[((Byte, Byte) => Char), Char, Y](in, out)
+class Controller[Y](in: Char => Y, out: Byte => Char) extends Monomial[Char, Byte => Char, Y](in, out)
+class System[Y](in: Byte => Y, out: Byte => Char) extends Monomial[Byte, Byte => Char, Y](in, out)
 type ω[Y] = ((Plant ⊗ Controller) ~> System)[Y]
 
-// println(summon[Mermaid[(Monomial[(Byte, Byte => Char), Char, _] ⊗ Monomial[Char, Byte => Char, _]) ~> Monomial[Byte, Byte => Char, _]]].showGeneric)
-println(summon[Mermaid[(Plant ⊗ Controller) ~> System]].showGeneric)
+println(summon[Mermaid[(Monomial[(Byte, Byte => Char), Char, _] ⊗ Monomial[Char, Byte => Char, _]) ~> Monomial[Byte, Byte => Char, _]]].showGeneric)
 // ```mermiad
 // graph LR;
 //   A:::hidden ----|A|P[ ]:::hole

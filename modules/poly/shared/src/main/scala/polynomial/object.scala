@@ -2,7 +2,7 @@ package polynomial
 
 object `object`:
 
-  type Store[S, A] = cats.data.Store[S, A]
+  type Store[S, Y] = cats.data.Store[S, Y]
 
   case class Monomial[A, B, Y](yᵉˣᵖ: A => Y, coeff: B)
 
