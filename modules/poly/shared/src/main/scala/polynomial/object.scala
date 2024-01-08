@@ -9,10 +9,6 @@ object `object`:
   type Terminal[Y] = Monomial[Nothing, Unit, Y]
 
   // `Syˢ`
-  // type MonoReflexive[S, Y] = Monomial[S, S, Y]
-  // type BiReflexive
-  // type ComonadicMono[S, Y] = Monomial[S, S, Y]
-  // type MonoStore
   type Store[S, Y] = cats.data.Store[S, Y]
 
   // Byᴬ
