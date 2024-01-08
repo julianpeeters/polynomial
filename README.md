@@ -64,7 +64,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Monomial[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@19f0b089
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@6470dd67
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
