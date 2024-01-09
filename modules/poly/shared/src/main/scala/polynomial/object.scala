@@ -9,10 +9,10 @@ object `object`:
   type Terminal[Y] = Monomial[Nothing, Unit, Y]
 
   // `Syˢ`
-  type Store[S, Y] = cats.data.Store[S, Y]
+  case class Store[S, Y](yᵉˣᵖ: S => Y, coeff: S) // isomorphic to `cats.data.Store[S, Y]`
 
   // Byᴬ
-  case class Monomial[A, B, Y](yᵉˣᵖ: A => Y, coeff: B) // isomorphic to `cats.data.Store[S, Y]` when `A =:= B`
+  case class Monomial[A, B, Y](yᵉˣᵖ: A => Y, coeff: B)
 
   // B₁yᴬ¹ + B₂yᴬ²
   sealed trait Binomial[+A1, +B1, +A2, +B2, Y]

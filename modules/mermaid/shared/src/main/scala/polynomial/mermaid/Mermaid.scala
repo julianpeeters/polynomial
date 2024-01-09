@@ -4,38 +4,37 @@ import polynomial.mermaid.Mermaid.CustomLabels
 import polynomial.mermaid.render.p.MermaidP
 import polynomial.mermaid.render.q.MermaidQ
 import polynomial.mermaid.render.Format.{Cardinal, Generic, Specific}
-import polynomial.mermaid.render.{Render}
-import polynomial.mermaid.render.addTitle
+import polynomial.mermaid.render.{Render, addTitle}
 import polynomial.morphism.PolyMap
 import polynomial.`object`.{Binomial, Monomial, Store}
 
 trait Mermaid[F[_]]:
   def showGraph(graphFmt: Format): String
-  def showGraphCustom(graphFmt: Format, labels: CustomLabels[F]): String
+  def showGraphCustom[Y](graphFmt: Format, labels: CustomLabels[F[Y]]): String
   def showTitle(titleFmt: Format): String
-  def showTitleCustom(labels: CustomLabels[F]): String
+  def showTitleCustom[Y](labels: CustomLabels[F[Y]]): String
   def showTitleHtml(titleFmt: Format): String
-  def showTitleHtmlCustom(labels: CustomLabels[F]): String
+  def showTitleHtmlCustom[Y](labels: CustomLabels[F[Y]]): String
   def showTitledGraph(titleFmt: Format, graphFmt: Format): String
-  def showTitledGraphCustom(graphFmt: Format, labels: CustomLabels[F]): String
+  def showTitledGraphCustom[Y](graphFmt: Format, labels: CustomLabels[F[Y]]): String
 
 object Mermaid:
 
-  type ParamLabels[P[_]] = P[Any] match
-    case Monomial[a, b, Any] => (String, String)
-    case Binomial[a1, b1, a2, b2, Any] => ((String, String), (String, String))
-    case Store[s, Any] => String
+  type ParamLabels[X] = X match
+    case Monomial[a, b, y] => (String, String)
+    case Binomial[a1, b1, a2, b2, y] => ((String, String), (String, String))
+    case Store[s, y] => String
     
-  type PolynomialLabels[P[_]] = P[Any] match
-    case Binomial[a1, b1, a2, b2, Any] => String
-    case Monomial[a, b, Any] => String
-    case Store[s, Any] => String
+  type PolynomialLabels[X] = X match
+    case Binomial[a1, b1, a2, b2, y] => String
+    case Monomial[a, b, y] => String
+    case Store[s, y] => String
 
-  type CustomLabels[P[_]] = P[Any] match
-    case PolyMap[Binomial[a1, b1, a2, b2, _], Monomial[a3, b3, _], Any] => (String, String)
-    case PolyMap[Monomial[a, b, _], Monomial[a3, b3, _], Any] => (String, String)
-    case PolyMap[Store[s, _], Monomial[a3, b3, _], Any] => (String, String)
-    case PolyMap[Store[s, _], Binomial[a1, b1, a2, b2, _], Any] => (String, String)
+  type CustomLabels[X] = X match
+    case PolyMap[p, q, y] => CustomLabels[(p[y], q[y])]
+    case (Monomial[a1, b1, y1], Monomial[a2, b2, y2]) => (String, String)
+    case (Store[s, y1], Binomial[a1, b1, a2, b2, y2]) => (String, String)
+    case (Store[s, y1], Monomial[a, b, y2]) => (String, String)
 
   given mooreStoreToMono[S, A, B](using
     P: MermaidP[Store[S, _]],
@@ -53,7 +52,7 @@ object Mermaid:
             Render.mermaidCodeFence(Q.graphQGeneric((labelA, labelB))(P.graphPGeneric(P.polynomialGeneric(labelS), labelS)))
           case Specific =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))
@@ -69,7 +68,7 @@ object Mermaid:
             Render.mermaidCodeFence(Render.title(P.polynomialGeneric(labelS), 3, Q.polynomialGeneric((labelA, labelB)), 3))
           case Specific =>
             Render.mermaidCodeFence(Render.title(P.polynomialSpecific, 3, Q.polynomialSpecific, 3))
-      def showTitleCustom(labels: (String, String)): String =
+      def showTitleCustom[Y](labels: (String, String)): String =
         Render.mermaidCodeFence(Render.title(labels._1, 3, labels._2, 3))     
       def showTitleHtml(titleFmt: Format): String =
         titleFmt match
@@ -79,7 +78,7 @@ object Mermaid:
             Render.polyMap(P.graphPGeneric(P.polynomialGeneric(labelS), labelS), Q.graphQGeneric((labelA, labelB))(P.graphPGeneric(P.polynomialGeneric(labelS), labelS)))
           case Specific =>
             Render.polyMap(P.graphPSpecific(P.polynomialSpecific), Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showTitleHtmlCustom(labels: (String, String)): String =
+      def showTitleHtmlCustom[Y](labels: (String, String)): String =
         Render.polyMap(labels._1, labels._2)
       def showTitledGraph(titleFmt: Format, graphFmt: Format): String =
         (titleFmt, graphFmt) match
@@ -110,7 +109,7 @@ object Mermaid:
           case (Specific, Specific) =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
               .addTitle(P.polynomialSpecific, 3, Q.polynomialSpecific, 3)
-      def showTitledGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showTitledGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))
@@ -138,7 +137,7 @@ object Mermaid:
             Render.mermaidCodeFence(Q.graphQGeneric((labelA, labelB))(P.graphPGeneric(P.polynomialGeneric(labelS), labelS)))
           case Specific =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))
@@ -154,7 +153,7 @@ object Mermaid:
             Render.mermaidCodeFence(Render.title(P.polynomialGeneric(labelS), 3, Q.polynomialGeneric((labelA, labelB)), 3))
           case Specific =>
             Render.mermaidCodeFence(Render.title(P.polynomialSpecific, 3, Q.polynomialSpecific, 3))
-      def showTitleCustom(labels: (String, String)): String =
+      def showTitleCustom[Y](labels: (String, String)): String =
         Render.mermaidCodeFence(Render.title(labels._1, 3, labels._2, 3))     
       def showTitleHtml(titleFmt: Format): String =
         titleFmt match
@@ -164,7 +163,7 @@ object Mermaid:
             Render.polyMap(P.graphPGeneric(P.polynomialGeneric(labelS), labelS), Q.graphQGeneric((labelA, labelB))(P.graphPGeneric(P.polynomialGeneric(labelS), labelS)))
           case Specific =>
             Render.polyMap(P.graphPSpecific(P.polynomialSpecific), Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showTitleHtmlCustom(labels: (String, String)): String =
+      def showTitleHtmlCustom[Y](labels: (String, String)): String =
         Render.polyMap(labels._1, labels._2)
       def showTitledGraph(titleFmt: Format, graphFmt: Format): String =
         (titleFmt, graphFmt) match
@@ -195,7 +194,7 @@ object Mermaid:
           case (Specific, Specific) =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
               .addTitle(P.polynomialSpecific, 3, Q.polynomialSpecific, 3)
-      def showTitledGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showTitledGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))
@@ -224,7 +223,7 @@ object Mermaid:
             Render.mermaidCodeFence(Q.graphQGeneric((labelA2, labelB2))(P.graphPGeneric(P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
           case Specific =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))
@@ -240,7 +239,7 @@ object Mermaid:
             Render.mermaidCodeFence(Render.title(P.polynomialGeneric((labelA1, labelB1)), 4, Q.polynomialGeneric((labelA2, labelB2)), 4))
           case Specific =>
             Render.mermaidCodeFence(Render.title(P.polynomialSpecific, 4, Q.polynomialSpecific, 4))
-      def showTitleCustom(labels: (String, String)): String =
+      def showTitleCustom[Y](labels: (String, String)): String =
         Render.mermaidCodeFence(Render.title(labels._1, 4, labels._2, 4))     
       def showTitleHtml(titleFmt: Format): String =
         titleFmt match
@@ -250,7 +249,7 @@ object Mermaid:
             Render.polyMap(P.graphPGeneric(P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1)), Q.graphQGeneric((labelA2, labelB2))(P.graphPGeneric(P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
           case Specific =>
             Render.polyMap(P.graphPSpecific(P.polynomialSpecific), Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showTitleHtmlCustom(labels: (String, String)): String =
+      def showTitleHtmlCustom[Y](labels: (String, String)): String =
         Render.polyMap(labels._1, labels._2)
       def showTitledGraph(titleFmt: Format, graphFmt: Format): String =
         (titleFmt, graphFmt) match
@@ -281,7 +280,7 @@ object Mermaid:
           case (Specific, Specific) =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
               .addTitle(P.polynomialSpecific, 4, Q.polynomialSpecific, 4)
-      def showTitledGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showTitledGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))
@@ -311,7 +310,7 @@ object Mermaid:
             Render.mermaidCodeFence(Q.graphQGeneric(((labelA1, labelB1), (labelA2, labelB2)))(P.graphPGeneric(P.polynomialGeneric(labelS), labelS)))
           case Specific =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))
@@ -327,7 +326,7 @@ object Mermaid:
             Render.mermaidCodeFence(Render.title(P.polynomialGeneric(labelS), 3, Q.polynomialGeneric(((labelA1, labelB1), (labelA2, labelB2))), 3))
           case Specific =>
             Render.mermaidCodeFence(Render.title(P.polynomialSpecific, 3, Q.polynomialSpecific, 3))
-      def showTitleCustom(labels: (String, String)): String =
+      def showTitleCustom[Y](labels: (String, String)): String =
         Render.mermaidCodeFence(Render.title(labels._1, 3, labels._2, 3))     
       def showTitleHtml(titleFmt: Format): String =
         titleFmt match
@@ -337,7 +336,7 @@ object Mermaid:
             Render.polyMap(P.graphPGeneric(P.polynomialGeneric(labelS), labelS), Q.graphQGeneric(((labelA1, labelB1), (labelA2, labelB2)))(P.graphPGeneric(P.polynomialGeneric(labelS), labelS)))
           case Specific =>
             Render.polyMap(P.graphPSpecific(P.polynomialSpecific), Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
-      def showTitleHtmlCustom(labels: (String, String)): String =
+      def showTitleHtmlCustom[Y](labels: (String, String)): String =
         Render.polyMap(labels._1, labels._2)
       def showTitledGraph(titleFmt: Format, graphFmt: Format): String =
         (titleFmt, graphFmt) match
@@ -368,7 +367,7 @@ object Mermaid:
           case (Specific, Specific) =>
             Render.mermaidCodeFence(Q.graphQSpecific(P.graphPSpecific(P.polynomialSpecific)))
               .addTitle(P.polynomialSpecific, 3, Q.polynomialSpecific, 3)
-      def showTitledGraphCustom(graphFmt: Format, labels: (String, String)): String =
+      def showTitledGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
             Render.mermaidCodeFence(Q.graphQCardinal(P.graphPCardinal(P.polynomialCardinal)))

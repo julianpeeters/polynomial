@@ -17,7 +17,6 @@ inThisBuild(List(
     )
   ),
   scalacOptions ++= Seq(
-    "-deprecation",
     "-feature",
     "-source:future",
     "-Werror",
