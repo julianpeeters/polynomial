@@ -1,4 +1,3 @@
-val CatsV = "2.10.0"
 val TypenameV = "0.2.0"
 val TypesizeV = "0.1.0"
 
@@ -32,9 +31,6 @@ lazy val poly = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/poly"))
   .settings(
     name := "polynomial",
-    libraryDependencies ++= Seq(
-      "org.typelevel" %%% "cats-core" % CatsV
-    )
   )
 
 lazy val mermaid = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -52,7 +48,6 @@ lazy val docs = project.in(file("docs/gitignored"))
   .settings(
     mdocOut := file("."),
     mdocVariables := Map(
-      "CATS" -> CatsV.reverse.dropWhile(_ != '.').drop(1).reverse,
       "SCALA" -> crossScalaVersions.value.map(e => e.takeWhile(_ != '.')).mkString(", "),
       "VERSION" -> version.value.takeWhile(_ != '+'),
     )
