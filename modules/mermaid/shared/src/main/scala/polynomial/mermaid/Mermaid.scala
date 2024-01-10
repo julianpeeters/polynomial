@@ -20,6 +20,12 @@ trait Mermaid[F[_]]:
 
 object Mermaid:
 
+  type CustomLabels[X] = X match
+    case PolyMap[p, q, y] => CustomLabels[(p[y], q[y])]
+    case (Monomial.Interface[a1, b1, y1], Monomial.Interface[a2, b2, y2]) => (String, String)
+    case (Monomial.Store[s, y1], Binomial.Interface[a1, b1, a2, b2, y2]) => (String, String)
+    case (Monomial.Store[s, y1], Monomial.Interface[a, b, y2]) => (String, String)
+
   type ParamLabels[X] = X match
     case Monomial.Interface[a, b, y] => (String, String)
     case Binomial.Interface[a1, b1, a2, b2, y] => ((String, String), (String, String))
@@ -29,12 +35,6 @@ object Mermaid:
     case Binomial.Interface[a1, b1, a2, b2, y] => String
     case Monomial.Interface[a, b, y] => String
     case Monomial.Store[s, y] => String
-
-  type CustomLabels[X] = X match
-    case PolyMap[p, q, y] => CustomLabels[(p[y], q[y])]
-    case (Monomial.Interface[a1, b1, y1], Monomial.Interface[a2, b2, y2]) => (String, String)
-    case (Monomial.Store[s, y1], Binomial.Interface[a1, b1, a2, b2, y2]) => (String, String)
-    case (Monomial.Store[s, y1], Monomial.Interface[a, b, y2]) => (String, String)
 
   given mooreStoreToMono[S, A, B](using
     P: MermaidP[Monomial.Store[S, _]],
