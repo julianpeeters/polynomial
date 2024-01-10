@@ -2,12 +2,6 @@ package polynomial
 
 object `object`:
 
-  // 0
-  type Initial[Y] = Monomial[Nothing, Nothing, Y]
-
-  // 1
-  type Terminal[Y] = Monomial[Nothing, Unit, Y]
-
   // `Syˢ`
   case class Store[S, Y](yᵉˣᵖ: S => Y, coeff: S) // isomorphic to `cats.data.Store[S, Y]`
 
