@@ -29,6 +29,8 @@ object morphism:
       
     type PhiSharp[P[_], Q[_], Y] = (P[Y], Q[Y]) match
       case (Binomial[a1, b1, a2, b2, Y], Binomial[a3, b3, a4, b4, Y]) => ((b1, a3) => a1, (b2, a4) => a2)
+      case (Binomial[a1, b1, a2, b2, Y], Monomial[a3, b3, Y])         => ((b1, a3) => a1, (b2, a3) => a2)
+      case (Monomial[a1, b1, Y], Binomial[a2, b2, a3, b3, Y])         => ((b1, a2) => a1, (b1, a3) => a1)
       case (Monomial[a1, b1, Y], Monomial[a2, b2, Y])                 => (b1, a2) => a1
       case (PolyMap[p, q, Y], Binomial[a3, b3, a4, b4, Y])            => PhiSharp[p, Binomial[a3, b3, a4, b4, _], Y]
       case (PolyMap[p, q, Y], Monomial[a2, b2, Y])                    => PhiSharp[p, Monomial[a2, b2, _], Y]
