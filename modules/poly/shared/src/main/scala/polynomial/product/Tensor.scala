@@ -13,7 +13,3 @@ object Tensor:
     case (Monomial[a1, b1, Y], Monomial[a2, b2, Y])                  => Monomial[(a1, a2), (b1, b2), Y]
     case (PolyMap[o, p, Y], PolyMap[q, r, Y])                        => PolyMap[DayConvolution[o, q, _], DayConvolution[p, r, _], Y]
     case (Store[s1, Y], Store[s2, Y])                                => Store[(s1, s2), Y]
-
-
-
-
