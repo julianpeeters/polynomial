@@ -51,32 +51,33 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 
 #### FAQ
 
->What are we losing out on by using simple types?
+>Q: What are we losing out on by using simple types?
 
-Simple types can easily model monomial lenses, yet they are too inflexible to
-model fully dependent lenses.
-
-However, a rich subset of lenses can be implemented, under the following
-constraints:
- - while function types may not depend on just any value, they may, by exploiting Scala's subtyping of ADTs, depend on classes of values
- - function types may not depend on just any type, but may, by exploiting Scala's match types, depend on types that abstract over arities
-
-These constraints liberate a (full?) subcategory of Poly wherein multi-term
-polynomials "fit" in a monomial lens, since the directions and positions of a
-given polynomial are themselves parameterized by a polynomial of an equal
-number of terms.
-
-For example, `Binomial` lens pameterized by `Option` has terms exponentiated by
-`Some[A]` and `None.type`, such that it appears as a dual-laned monomial lens:
-
-```scala mdoc:reset:passthrough
-import polynomial.`object`.{Monomial, Binomial}
-import polynomial.mermaid.{Format, Mermaid, given}
-import polynomial.morphism.~>
-
-type P[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Some[Byte], None.type, None.type, Some[String], _])[Y]
-println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Specific, graphFmt = Format.Specific))
-```
+>A: Simple types can easily model monomial lenses, yet they are too inflexible
+>to model fully dependent lenses.
+>
+>However, a rich subset of dependent lenses can be implemented, under the
+>following constraints:
+> - while function types may not depend on just any value, they may, by exploiting Scala's subtyping of ADTs, depend on classes of values
+> - function types may not depend on just any type, but may, by exploiting Scala's match types, depend on types that abstract over arities
+>
+>These constraints liberate a (full?) subcategory of Poly wherein multi-term
+>polynomials "fit" in a monomial lens, since the directions and positions of a
+>given polynomial are themselves parameterized by a polynomial of an equal
+>number of terms.
+>
+>For example, `Binomial` lens pameterized by `Option` has terms exponentiated
+>by `Some[A]` and `None.type`, such that it appears as a "dual-laned" monomial
+>lens:
+>
+>```scala mdoc:reset:passthrough
+>import polynomial.`object`.{Monomial, Binomial}
+>import polynomial.mermaid.{Format, Mermaid, given}
+>import polynomial.morphism.~>
+>
+>type P[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Some[Byte], None.type, None.type, Some[String], _])[Y]
+>println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Specific, graphFmt = Format.Specific))
+>```
 
 ### `polynomial-mermaid`
 
