@@ -6,7 +6,7 @@ import polynomial.mermaid.render.q.MermaidQ
 import polynomial.mermaid.render.Format.{Cardinal, Generic, Specific}
 import polynomial.mermaid.render.{Render, addTitle}
 import polynomial.morphism.PolyMap
-import polynomial.`object`.{Binomial, Monomial, Store}
+import polynomial.`object`.{Binomial, Monomial}
 
 trait Mermaid[F[_]]:
   def showGraph(graphFmt: Format): String
@@ -21,26 +21,26 @@ trait Mermaid[F[_]]:
 object Mermaid:
 
   type ParamLabels[X] = X match
-    case Monomial[a, b, y] => (String, String)
-    case Binomial[a1, b1, a2, b2, y] => ((String, String), (String, String))
-    case Store[s, y] => String
+    case Monomial.Interface[a, b, y] => (String, String)
+    case Binomial.Interface[a1, b1, a2, b2, y] => ((String, String), (String, String))
+    case Monomial.Store[s, y] => String
     
   type PolynomialLabels[X] = X match
-    case Binomial[a1, b1, a2, b2, y] => String
-    case Monomial[a, b, y] => String
-    case Store[s, y] => String
+    case Binomial.Interface[a1, b1, a2, b2, y] => String
+    case Monomial.Interface[a, b, y] => String
+    case Monomial.Store[s, y] => String
 
   type CustomLabels[X] = X match
     case PolyMap[p, q, y] => CustomLabels[(p[y], q[y])]
-    case (Monomial[a1, b1, y1], Monomial[a2, b2, y2]) => (String, String)
-    case (Store[s, y1], Binomial[a1, b1, a2, b2, y2]) => (String, String)
-    case (Store[s, y1], Monomial[a, b, y2]) => (String, String)
+    case (Monomial.Interface[a1, b1, y1], Monomial.Interface[a2, b2, y2]) => (String, String)
+    case (Monomial.Store[s, y1], Binomial.Interface[a1, b1, a2, b2, y2]) => (String, String)
+    case (Monomial.Store[s, y1], Monomial.Interface[a, b, y2]) => (String, String)
 
   given mooreStoreToMono[S, A, B](using
-    P: MermaidP[Store[S, _]],
-    Q: MermaidQ[Monomial[A, B, _]],
-  ): Mermaid[PolyMap[Store[S, _], Monomial[A, B, _], _]] =
-    new Mermaid[PolyMap[Store[S, _], Monomial[A, B, _], _]]:
+    P: MermaidP[Monomial.Store[S, _]],
+    Q: MermaidQ[Monomial.Interface[A, B, _]],
+  ): Mermaid[PolyMap[Monomial.Store[S, _], Monomial.Interface[A, B, _], _]] =
+    new Mermaid[PolyMap[Monomial.Store[S, _], Monomial.Interface[A, B, _], _]]:
       private val labelS: String = "S"
       private val labelA: String = "A"
       private val labelB: String = "B"
@@ -122,10 +122,10 @@ object Mermaid:
               .addTitle(labels._1, 3, labels._2, 3)
         
   given mealyStoreToMono[S, A, B](using
-    P: MermaidP[Store[S, _]],
-    Q: MermaidQ[Monomial[A, A => B, _]],
-  ): Mermaid[PolyMap[Store[S, _], Monomial[A, A => B, _], _]] =
-    new Mermaid[PolyMap[Store[S, _], Monomial[A, A => B, _], _]]:
+    P: MermaidP[Monomial.Store[S, _]],
+    Q: MermaidQ[Monomial.Interface[A, A => B, _]],
+  ): Mermaid[PolyMap[Monomial.Store[S, _], Monomial.Interface[A, A => B, _], _]] =
+    new Mermaid[PolyMap[Monomial.Store[S, _], Monomial.Interface[A, A => B, _], _]]:
       private val labelS = "S"
       private val labelA = "A"
       private val labelB = "B"
@@ -207,10 +207,10 @@ object Mermaid:
               .addTitle(labels._1, 3, labels._2, 3)
 
   given monoToMono[A1, B1, A2, B2](using
-    P: MermaidP[Monomial[A1, B1, _]],
-    Q: MermaidQ[Monomial[A2, B2, _]],
-  ): Mermaid[PolyMap[Monomial[A1, B1, _], Monomial[A2, B2, _], _]] =
-    new Mermaid[PolyMap[Monomial[A1, B1, _], Monomial[A2, B2, _], _]]:
+    P: MermaidP[Monomial.Interface[A1, B1, _]],
+    Q: MermaidQ[Monomial.Interface[A2, B2, _]],
+  ): Mermaid[PolyMap[Monomial.Interface[A1, B1, _], Monomial.Interface[A2, B2, _], _]] =
+    new Mermaid[PolyMap[Monomial.Interface[A1, B1, _], Monomial.Interface[A2, B2, _], _]]:
       private val labelA1 = "A<sub>1</sub>"
       private val labelB1 = "B<sub>1</sub>"
       private val labelA2 = "A<sub>2</sub>"
@@ -293,10 +293,10 @@ object Mermaid:
               .addTitle(labels._1, 4, labels._2, 4)
         
   given mooreStoreToBi[S, A1, B1, A2, B2](using
-    P: MermaidP[Store[S, _]],
-    Q: MermaidQ[Binomial[A1, B1, A2, B2, _]],
-  ): Mermaid[PolyMap[Store[S, _], Binomial[A1, B1, A2, B2, _], _]] =
-    new Mermaid[PolyMap[Store[S, _], Binomial[A1, B1, A2, B2, _], _]]:
+    P: MermaidP[Monomial.Store[S, _]],
+    Q: MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]],
+  ): Mermaid[PolyMap[Monomial.Store[S, _], Binomial.Interface[A1, B1, A2, B2, _], _]] =
+    new Mermaid[PolyMap[Monomial.Store[S, _], Binomial.Interface[A1, B1, A2, B2, _], _]]:
       private val labelS = "S"
       private val labelA1 = "A<sub>1</sub>"
       private val labelB1 = "B<sub>1</sub>"

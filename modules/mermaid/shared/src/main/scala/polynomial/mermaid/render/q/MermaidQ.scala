@@ -32,8 +32,8 @@ object MermaidQ:
       NB: NameOf[B],
       SA: SizeOf[A],
       SB: SizeOf[B]
-    ): MermaidQ[Monomial[A, B, _]] =
-    new MermaidQ[Monomial[A, B, _]]:
+    ): MermaidQ[Monomial.Interface[A, B, _]] =
+    new MermaidQ[Monomial.Interface[A, B, _]]:
       def graphQ[Y](p: String, paramLabelsQ: (String, String)) =
         s"A:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|B:::hidden;"
       def graphQCardinal: String => String =
@@ -63,8 +63,8 @@ object MermaidQ:
       NB: NameOf[B],
       SA: SizeOf[A],
       SB: SizeOf[B]
-    ): MermaidQ[Monomial[A, A => B, _]] =
-    new MermaidQ[Monomial[A, A => B, _]]:
+    ): MermaidQ[Monomial.Interface[A, A => B, _]] =
+    new MermaidQ[Monomial.Interface[A, A => B, _]]:
       def graphQ[Y](p: String, paramLabelsQ: (String, String)) =
         s"A:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|B:::hidden;"
       def graphQCardinal: String => String =
@@ -97,8 +97,8 @@ object MermaidQ:
     SB1: SizeOf[B1],
     SA2: SizeOf[A2],
     SB2: SizeOf[B2],
-  ): MermaidQ[Binomial[A1, B1, A2, B2, _]] =
-    new MermaidQ[Binomial[A1, B1, A2, B2, _]]:
+  ): MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]] =
+    new MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]]:
       def graphQ[Y](p: String, paramLabelsQ: ((String, String), (String, String))): String =
           s"A:::hidden---|${paramLabelsQ._1._1}<br>${paramLabelsQ._2._1}|${p}---|${paramLabelsQ._1._2}<br>${paramLabelsQ._2._2}|B:::hidden;"
       def graphQCardinal: String => String =

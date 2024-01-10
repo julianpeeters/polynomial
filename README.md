@@ -16,7 +16,6 @@ classDef title stroke-width:0px, fill:background;
 
 ### Add the dependencies:
  - libarary for Scala 3 (JS, JVM, and Native platforms)
- - depends on cats 2.10 (for the `Store` monomial)
  
 ```scala
 "com.julianpeeters" %% "polynomial" % "0.1.0"         // core library (required)
@@ -41,12 +40,12 @@ import polynomial.`object`.*
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type `2y⁵¹²`           = Monomial[(Byte, Boolean), Boolean, _]
+type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
 type `y² + 2y`         = Binomial[Boolean, Unit, Unit, Boolean, _]
 type `y² + 2y + 1`     = Trinomial[Boolean, Unit, Unit, Boolean, Nothing, Unit, _]
-type `2y²`             = Store[Boolean, _]
-type `0`               = Initial[_]
-type `1`               = Terminal[_]
+type `2y²`             = Monomial.Store[Boolean, _] // isomorphic to cats.data.Store
+type `0`               = Monomial.Interface[Nothing, Any, _]
+type `1`               = Monomial.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 ```
@@ -57,14 +56,14 @@ Certain lenses can be interpreted graphically. Given a `Mermaid` instance for a
 `PolyMap`, a [mermaid](https://mermaid.js.org/intro/) flowchart definition can be printed.
 
 ```scala
-import polynomial.`object`.{Store, Monomial}
+import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Monomial[Byte, Char, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@2efa8378
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@1b345da7
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
@@ -103,7 +102,7 @@ Built-in instances are provided for the following lenses:
 
 <details><summary>click to expand</summary>
 
-##### Example: monomial state lens `Store[S, _] ~> Monomial[A, B, _]`
+##### Example: monomial state lens `Store[S, _] ~> Interface[A, B, _]`
 ```mermaid
 graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → <span style="font-family:Courier">B</span>𝑦<sup><span style="font-family:Courier">A</span></sup>]:::title~~~TitleEnd[ ]:::hidden
@@ -114,7 +113,7 @@ classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
 
-##### Example: monomial lens `Monomial[A1, B1, _] ~> Monomial[A2, B2, _]`
+##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
 ```mermaid
 graph LR;
   TitleStart[ ]:::hidden~~~~TitleBody[<span style="font-family:Courier">B<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>1</sub></span></sup> → <span style="font-family:Courier">B<sub>2</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>2</sub></span></sup>]:::title~~~~TitleEnd[ ]:::hidden

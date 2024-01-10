@@ -3,11 +3,11 @@
 Based on the polynomial functors described in [Niu and Spivak](https://topos.site/poly-book.pdf)
 
 ```scala mdoc:reset:passthrough
-import polynomial.`object`.{Store, Monomial}
+import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.PolyMap
 
-type P[Y] = PolyMap[Store[Boolean, _], Monomial[Byte, Char, _], Y]
+type P[Y] = PolyMap[Store[Boolean, _], Interface[Byte, Char, _], Y]
 println(summon[Mermaid[P]].showTitledGraph(Format.Generic, Format.Generic))
 ```
 
@@ -15,7 +15,6 @@ println(summon[Mermaid[P]].showTitledGraph(Format.Generic, Format.Generic))
 
 ### Add the dependencies:
  - libarary for Scala @SCALA@ (JS, JVM, and Native platforms)
- - depends on cats @CATS@ (for the `Store` monomial)
  
 ```scala
 "com.julianpeeters" %% "polynomial" % "@VERSION@"         // core library (required)
@@ -40,12 +39,12 @@ import polynomial.`object`.*
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type `2y⁵¹²`           = Monomial[(Byte, Boolean), Boolean, _]
+type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
 type `y² + 2y`         = Binomial[Boolean, Unit, Unit, Boolean, _]
 type `y² + 2y + 1`     = Trinomial[Boolean, Unit, Unit, Boolean, Nothing, Unit, _]
-type `2y²`             = Store[Boolean, _]
-type `0`               = Initial[_]
-type `1`               = Terminal[_]
+type `2y²`             = Monomial.Store[Boolean, _] // isomorphic to cats.data.Store
+type `0`               = Monomial.Interface[Nothing, Any, _]
+type `1`               = Monomial.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 ```
@@ -56,11 +55,11 @@ Certain lenses can be interpreted graphically. Given a `Mermaid` instance for a
 `PolyMap`, a [mermaid](https://mermaid.js.org/intro/) flowchart definition can be printed.
 
 ```scala mdoc:reset
-import polynomial.`object`.{Store, Monomial}
+import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Monomial[Byte, Char, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
@@ -68,11 +67,11 @@ println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific
 ```
 
 ```scala mdoc:reset:passthrough
-import polynomial.`object`.{Store, Monomial}
+import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Monomial[Byte, Char, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
@@ -94,33 +93,33 @@ Built-in instances are provided for the following lenses:
 
 <details><summary>click to expand</summary>
 
-##### Example: monomial state lens `Store[S, _] ~> Monomial[A, B, _]`
+##### Example: monomial state lens `Store[S, _] ~> Interface[A, B, _]`
 ```scala mdoc:reset:passthrough
-import polynomial.`object`.{Store, Monomial}
+import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type P[Y] = (Store[Boolean, _] ~> Monomial[Byte, Char, _])[Y]
+type P[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```
 
-##### Example: monomial lens `Monomial[A1, B1, _] ~> Monomial[A2, B2, _]`
+##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
 ```scala mdoc:reset:passthrough
-import polynomial.`object`.Monomial
+import polynomial.`object`.Monomial.Interface
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type P[Y] = (Monomial[Byte, Byte, _] ~> Monomial[Byte, Char, _])[Y]
+type P[Y] = (Interface[Byte, Byte, _] ~> Interface[Byte, Char, _])[Y]
 println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```
 
 ##### Example: binomial state lens `Store[S, _] ~> Binomial[A1, B1, A2, B2, _]`
 ```scala mdoc:reset:passthrough
-import polynomial.`object`.{Store, Binomial}
+import polynomial.`object`.{Monomial, Binomial}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type P[Y] = (Store[Boolean, _] ~> Binomial[Some[Byte], None.type, None.type, Some[String], _])[Y]
+type P[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Some[Byte], None.type, None.type, Some[String], _])[Y]
 println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```
 
@@ -133,9 +132,9 @@ import polynomial.`object`.Monomial
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type Plant[Y]      = Monomial[(Byte, Boolean), Char, Y]
-type Controller[Y] = Monomial[Char, Boolean, Y]
-type System[Y]     = Monomial[Byte, Boolean, Y]
+type Plant[Y]      = Monomial.Interface[(Byte, Boolean), Char, Y]
+type Controller[Y] = Monomial.Interface[Char, Boolean, Y]
+type System[Y]     = Monomial.Interface[Byte, Boolean, Y]
 type ω[Y] = ((Plant ⊗ Controller) ~> System)[Y]
 
 // println(summon[Mermaid[ω]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
