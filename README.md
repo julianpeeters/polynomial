@@ -50,6 +50,36 @@ type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 ```
 
+#### FAQ
+
+>What are we losing out on by using simple types?
+
+Simple types can easily model monomial lenses, yet they are too inflexible to
+model fully dependent lenses.
+
+However, a rich subset of lenses can be implemented, under the following
+constraints:
+ - while function types may not depend on just any value, they may, by exploiting Scala's subtyping of ADTs, depend on classes of values
+ - function types may not depend on just any type, but may, by exploiting Scala's match types, depend on types that abstract over arities
+
+These constraints liberate a (full?) subcategory of Poly wherein multi-term
+polynomials "fit" in a monomial lens, since the directions and positions of a
+given polynomial are themselves parameterized by a polynomial of an equal
+number of terms.
+
+For example, `Binomial` lens pameterized by `Option` has terms exponentiated by
+`Some[A]` and `None.type`, such that it appears as a dual-laned monomial lens:
+
+```mermaid
+graph LR;
+  TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">Boolean</span>𝑦<sup><span style="font-family:Courier">Boolean</span></sup> → None.type𝑦<sup>Some[Byte]</sup> + Some[String]𝑦<sup>None.type</sup>]:::title~~~TitleEnd[ ]:::hidden
+  A:::hidden---|Some[Byte]<br>None.type|S[<span style="font-family:Courier">Boolean</span>]---|None.type<br>Some[String]|B:::hidden;
+
+classDef empty fill:background;
+classDef point width:0px, height:0px;
+classDef title stroke-width:0px, fill:background;
+```
+
 ### `polynomial-mermaid`
 
 Certain lenses can be interpreted graphically. Given a `Mermaid` instance for a
@@ -63,7 +93,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@1b345da7
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@5565c567
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
