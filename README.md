@@ -52,19 +52,19 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 
 #### FAQ
 
->Q: What are we losing out on by using simple types?
+>Q: What are we losing by using simple types rather than dependent types?
 
->A: Simple types can easily model monomial lenses, yet they are too inflexible
->to model fully dependent lenses.
+>A: Simple types can easily model monomial lenses, yet they are not flexible
+>enough to model fully dependent lenses.
 >
 >However, a rich subset of dependent lenses can be implemented, under the
 >following constraints:
-> - while function types may not depend on just any value, they may, by exploiting Scala's subtyping of ADTs, depend on classes of values
+> - function types may not depend on just any value, but may, by exploiting Scala's subtyping of ADTs, depend on classes of values
 > - function types may not depend on just any type, but may, by exploiting Scala's match types, depend on types that abstract over arities
 >
 >These constraints liberate a (full?) subcategory of Poly wherein multi-term
->polynomials "fit" in a monomial lens, since the directions and positions of a
->given polynomial are themselves parameterized by a polynomial of an equal
+>polynomial lenses "fit" in a monomial lens, since the directions and positions
+>of a given polynomial are themselves parameterized by a polynomial of an equal
 >number of terms.
 >
 >For example, `Binomial` lens pameterized by `Option` has terms exponentiated
@@ -93,7 +93,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@5360ce06
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@b268480
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
@@ -160,7 +160,7 @@ classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
 
-##### Example: binomial state lens `Store[S, _] ~> Binomial[A1, B1, A2, B2, _]`
+##### Example: binomial state lens `Store[S, _] ~> Interface[A1, B1, A2, B2, _]`
 ```mermaid
 graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → B<sub>1</sub>𝑦<sup>A<sub>1</sub></sup> + B<sub>2</sub>𝑦<sup>A<sub>2</sub></sup>]:::title~~~TitleEnd[ ]:::hidden
