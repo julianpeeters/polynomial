@@ -7,9 +7,6 @@ graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → <span style="font-family:Courier">B</span>𝑦<sup><span style="font-family:Courier">A</span></sup>]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
 ```
 
 ---
@@ -68,18 +65,15 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 > - the positions and directions of the polynomial are related by an ADT
 > - the number of terms in the polynomial is equal to the number of members of the ADT
 >
->For example, `Binomial` lens pameterized by `Option` has terms exponentiated
->by `Some[A]` and `None.type`, such that it appears as a "dual-laned" monomial
->lens:
+>For example, `Binomial` lens can be pameterized by `Option` such that its
+>terms are exponentiated by `Some[A]` and `None.type`, and behaves as a
+>"dual-laned" monomiallens:
 >
->```scala mdoc:reset:passthrough
->import polynomial.`object`.{Monomial, Binomial}
->import polynomial.mermaid.{Format, Mermaid, given}
->import polynomial.morphism.~>
->
->type P[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Some[Byte], None.type, None.type, Some[String], _])[Y]
->println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Specific, graphFmt = Format.Specific))
->```
+```mermaid
+graph LR;
+  TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">Boolean</span>𝑦<sup><span style="font-family:Courier">Boolean</span></sup> → None.type𝑦<sup>Some[Byte]</sup> + Some[String]𝑦<sup>None.type</sup>]:::title~~~TitleEnd[ ]:::hidden
+  A:::hidden---|Some[Byte]<br>None.type|S[<span style="font-family:Courier">Boolean</span>]---|None.type<br>Some[String]|B:::hidden;
+```
 
 ### `polynomial-mermaid`
 
@@ -94,7 +88,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@41b2a60
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@1712b3de
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
@@ -113,9 +107,6 @@ graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">Boolean</span>𝑦<sup><span style="font-family:Courier">Boolean</span></sup> → <span style="font-family:Courier">Char</span>𝑦<sup><span style="font-family:Courier">Byte</span></sup>]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|256|S[2]---|256|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
 ```
 (Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
 
@@ -139,9 +130,6 @@ graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → <span style="font-family:Courier">B</span>𝑦<sup><span style="font-family:Courier">A</span></sup>]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
 ```
 
 ##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
@@ -156,9 +144,6 @@ subgraph s[ ]
 end
 B2[ ]:::point---|<span style="font-family:Courier">B<sub>2</sub></span>|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
 ```
 
 ##### Example: binomial state lens `Store[S, _] ~> Interface[A1, B1, A2, B2, _]`
@@ -167,9 +152,6 @@ graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → B<sub>1</sub>𝑦<sup>A<sub>1</sub></sup> + B<sub>2</sub>𝑦<sup>A<sub>2</sub></sup>]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|<span style="font-family:Courier">A<sub>1</sub></span><br><span style="font-family:Courier">A<sub>2</sub></span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B<sub>1</sub></span><br><span style="font-family:Courier">B<sub>2</sub></span>|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
 ```
 
 
