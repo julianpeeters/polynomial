@@ -87,7 +87,7 @@ type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
-println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
+println(M.showGraph(graphFmt = Format.Specific))
 ```
 
 ```scala mdoc:reset:passthrough
@@ -99,7 +99,7 @@ type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
-println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
+println(M.showGraph(graphFmt = Format.Specific))
 ```
 (Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
 
@@ -124,7 +124,7 @@ import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
 type P[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
-println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
+println(summon[Mermaid[P]].showGraph(graphFmt = Format.Specific))
 ```
 
 ##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
@@ -134,7 +134,7 @@ import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
 type P[Y] = (Interface[Byte, Byte, _] ~> Interface[Byte, Char, _])[Y]
-println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
+println(summon[Mermaid[P]].showGraph(graphFmt = Format.Specific))
 ```
 
 ##### Example: binomial state lens `Store[S, _] ~> Interface[A1, B1, A2, B2, _]`
