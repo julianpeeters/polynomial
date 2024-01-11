@@ -61,17 +61,9 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 >
 >For example, `Binomial` lens can be pameterized by `Option` such that its
 >terms are exponentiated by `Some[A]` and `None.type`, and behaves as a
->"dual-laned" monomiallens:
+>"dual-laned" monomial lens:
 >
-```mermaid
-graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[Booleany^Boolean ~> None.typey^Some[Byte] + Some[String]y^None.type]:::title~~~TitleEnd[ ]:::hidden
-  A:::hidden---|Some[Byte]<br>None.type|S[Boolean]---|None.type<br>Some[String]|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
-```
 
 ### `polynomial-mermaid`
 
@@ -86,7 +78,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@5c329245
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@4e6dd882
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
@@ -105,9 +97,7 @@ graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[Booleany^Boolean ~> Chary^Byte]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|256|S[2]---|256|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
+
 ```
 (Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
 
@@ -131,9 +121,7 @@ graph LR;
   TitleStart[ ]:::hidden~~~TitleBody[Booleany^Boolean ~> Chary^Byte]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|256|S[2]---|256|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
+
 ```
 
 ##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
@@ -148,9 +136,7 @@ subgraph s[ ]
 end
 B2[ ]:::point---|256|B:::hidden;
 
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
+
 ```
 
 ##### Example: binomial state lens `Store[S, _] ~> Interface[A1, B1, A2, B2, _]`

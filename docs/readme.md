@@ -61,15 +61,16 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 >
 >For example, `Binomial` lens can be pameterized by `Option` such that its
 >terms are exponentiated by `Some[A]` and `None.type`, and behaves as a
->"dual-laned" monomiallens:
+>"dual-laned" monomial lens:
 >
+
 ```scala mdoc:reset:passthrough
 import polynomial.`object`.{Monomial, Binomial}
-import polynomial.mermaid.{Format, Mermaid, given}
+// import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
 type P[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Some[Byte], None.type, None.type, Some[String], _])[Y]
-println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Specific, graphFmt = Format.Specific))
+// println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Specific, graphFmt = Format.Specific))
 ```
 
 ### `polynomial-mermaid`
