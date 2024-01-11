@@ -78,12 +78,12 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@38de7a7
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@159b4a73
 
 println(M.showGraph(graphFmt = Format.Specific))
 // ```mermaid
 // graph LR;
-//   A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
+//   A:::hidden---|<span style="font-family:Courier">Byte</span>|S[<span style="font-family:Courier">Boolean</span>]---|<span style="font-family:Courier">Char</span>|B:::hidden;
 // 
 // classDef empty fill:background;
 // classDef point width:0px, height:0px;
@@ -93,7 +93,7 @@ println(M.showGraph(graphFmt = Format.Specific))
 
 ```mermaid
 graph LR;
-  A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
+  A:::hidden---|<span style="font-family:Courier">Byte</span>|S[<span style="font-family:Courier">Boolean</span>]---|<span style="font-family:Courier">Char</span>|B:::hidden;
 
 classDef empty fill:background;
 classDef point width:0px, height:0px;
@@ -118,7 +118,7 @@ Built-in instances are provided for the following lenses:
 ##### Example: monomial state lens `Store[S, _] ~> Interface[A, B, _]`
 ```mermaid
 graph LR;
-  A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
+  A:::hidden---|<span style="font-family:Courier">Byte</span>|S[<span style="font-family:Courier">Boolean</span>]---|<span style="font-family:Courier">Char</span>|B:::hidden;
 
 classDef empty fill:background;
 classDef point width:0px, height:0px;
@@ -128,13 +128,13 @@ classDef title stroke-width:0px, fill:background;
 ##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
 ```mermaid
 graph LR;
-  A:::hidden---|Byte|A2[ ]:::point
+  A:::hidden---|<span style="font-family:Courier">Byte</span>|A2[ ]:::point
 subgraph s[ ]
   A2:::point---MermaidPMono
-  MermaidPMono[Bytey^Byte]:::empty
+  MermaidPMono[<span style="font-family:Courier">Byte</span>𝑦<sup><span style="font-family:Courier">Byte</span></sup>]:::empty
   MermaidPMono---B2
 end
-B2[ ]:::point---|Char|B:::hidden;
+B2[ ]:::point---|<span style="font-family:Courier">Char</span>|B:::hidden;
 
 classDef empty fill:background;
 classDef point width:0px, height:0px;
