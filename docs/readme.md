@@ -2,23 +2,15 @@
 
 Based on the polynomial functors described in [Niu and Spivak](https://topos.site/poly-book.pdf)
 
-```scala mdoc:reset:passthrough
-import polynomial.`object`.Monomial.{Store, Interface}
-import polynomial.mermaid.{Format, Mermaid, given}
-import polynomial.morphism.PolyMap
-
-type P[Y] = PolyMap[Store[Boolean, _], Interface[Byte, Char, _], Y]
-println(summon[Mermaid[P]].showTitledGraph(Format.Generic, Format.Generic))
-```
-
 ---
 
 ### Add the dependencies:
- - libarary for Scala @SCALA@ (JS, JVM, and Native platforms)
+ - library for Scala @SCALA@ (JS, JVM, and Native platforms)
+ - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "@VERSION@"         // core library (required)
-"com.julianpeeters" %% "polynomial-mermaid" % "@VERSION@" // mermaid integration (optional)
+"com.julianpeeters" %% "polynomial" % "@VERSION@" 
+"com.julianpeeters" %% "polynomial-mermaid" % "@VERSION@"
 ```
 
 ---
@@ -131,7 +123,7 @@ import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
 type P[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
-println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
+println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 ```
 
 ##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
@@ -141,17 +133,17 @@ import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
 type P[Y] = (Interface[Byte, Byte, _] ~> Interface[Byte, Char, _])[Y]
-println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
+println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 ```
 
 ##### Example: binomial state lens `Store[S, _] ~> Interface[A1, B1, A2, B2, _]`
 ```scala mdoc:reset:passthrough
 import polynomial.`object`.{Monomial, Binomial}
-import polynomial.mermaid.{Format, Mermaid, given}
+// import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
 type P[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Some[Byte], None.type, None.type, Some[String], _])[Y]
-println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
+// println(summon[Mermaid[P]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```
 
 

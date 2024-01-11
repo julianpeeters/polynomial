@@ -2,21 +2,15 @@
 
 Based on the polynomial functors described in [Niu and Spivak](https://topos.site/poly-book.pdf)
 
-```mermaid
-graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → <span style="font-family:Courier">B</span>𝑦<sup><span style="font-family:Courier">A</span></sup>]:::title~~~TitleEnd[ ]:::hidden
-  A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
-
-```
-
 ---
 
 ### Add the dependencies:
- - libarary for Scala 3 (JS, JVM, and Native platforms)
+ - library for Scala 3 (JS, JVM, and Native platforms)
+ - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.2.0"         // core library (required)
-"com.julianpeeters" %% "polynomial-mermaid" % "0.2.0" // mermaid integration (optional)
+"com.julianpeeters" %% "polynomial" % "0.2.0" 
+"com.julianpeeters" %% "polynomial-mermaid" % "0.2.0"
 ```
 
 ---
@@ -71,8 +65,12 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 >
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">Boolean</span>𝑦<sup><span style="font-family:Courier">Boolean</span></sup> → None.type𝑦<sup>Some[Byte]</sup> + Some[String]𝑦<sup>None.type</sup>]:::title~~~TitleEnd[ ]:::hidden
-  A:::hidden---|Some[Byte]<br>None.type|S[<span style="font-family:Courier">Boolean</span>]---|None.type<br>Some[String]|B:::hidden;
+  TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → None.type𝑦^Some[Byte] + Some[String]𝑦^None.type]:::title~~~TitleEnd[ ]:::hidden
+  A:::hidden---|Some[Byte]<br>None.type|S[Boolean]---|None.type<br>Some[String]|B:::hidden;
+
+classDef empty fill:background;
+classDef point width:0px, height:0px;
+classDef title stroke-width:0px, fill:background;
 ```
 
 ### `polynomial-mermaid`
@@ -88,12 +86,12 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@1712b3de
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@3f7e4153
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
 // graph LR;
-//   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">Boolean</span>𝑦<sup><span style="font-family:Courier">Boolean</span></sup> → <span style="font-family:Courier">Char</span>𝑦<sup><span style="font-family:Courier">Byte</span></sup>]:::title~~~TitleEnd[ ]:::hidden
+//   TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → Char𝑦^Byte]:::title~~~TitleEnd[ ]:::hidden
 //   A:::hidden---|256|S[2]---|256|B:::hidden;
 // 
 // classDef empty fill:background;
@@ -104,9 +102,12 @@ println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific
 
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">Boolean</span>𝑦<sup><span style="font-family:Courier">Boolean</span></sup> → <span style="font-family:Courier">Char</span>𝑦<sup><span style="font-family:Courier">Byte</span></sup>]:::title~~~TitleEnd[ ]:::hidden
+  TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → Char𝑦^Byte]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|256|S[2]---|256|B:::hidden;
 
+classDef empty fill:background;
+classDef point width:0px, height:0px;
+classDef title stroke-width:0px, fill:background;
 ```
 (Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
 
@@ -127,32 +128,32 @@ Built-in instances are provided for the following lenses:
 ##### Example: monomial state lens `Store[S, _] ~> Interface[A, B, _]`
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → <span style="font-family:Courier">B</span>𝑦<sup><span style="font-family:Courier">A</span></sup>]:::title~~~TitleEnd[ ]:::hidden
-  A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
+  TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → Char𝑦^Byte]:::title~~~TitleEnd[ ]:::hidden
+  A:::hidden---|256|S[2]---|256|B:::hidden;
 
+classDef empty fill:background;
+classDef point width:0px, height:0px;
+classDef title stroke-width:0px, fill:background;
 ```
 
 ##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~~TitleBody[<span style="font-family:Courier">B<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>1</sub></span></sup> → <span style="font-family:Courier">B<sub>2</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>2</sub></span></sup>]:::title~~~~TitleEnd[ ]:::hidden
-  A:::hidden---|<span style="font-family:Courier">A<sub>2</sub></span>|A2[ ]:::point
+  TitleStart[ ]:::hidden~~~~TitleBody[Byte𝑦^Byte → Char𝑦^Byte]:::title~~~~TitleEnd[ ]:::hidden
+  A:::hidden---|256|A2[ ]:::point
 subgraph s[ ]
   A2:::point---MermaidPMono
-  MermaidPMono[<span style="font-family:Courier">B<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>1</sub></span></sup>]:::empty
+  MermaidPMono[256𝑦^256]:::empty
   MermaidPMono---B2
 end
-B2[ ]:::point---|<span style="font-family:Courier">B<sub>2</sub></span>|B:::hidden;
+B2[ ]:::point---|256|B:::hidden;
 
+classDef empty fill:background;
+classDef point width:0px, height:0px;
+classDef title stroke-width:0px, fill:background;
 ```
 
 ##### Example: binomial state lens `Store[S, _] ~> Interface[A1, B1, A2, B2, _]`
-```mermaid
-graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → B<sub>1</sub>𝑦<sup>A<sub>1</sub></sup> + B<sub>2</sub>𝑦<sup>A<sub>2</sub></sup>]:::title~~~TitleEnd[ ]:::hidden
-  A:::hidden---|<span style="font-family:Courier">A<sub>1</sub></span><br><span style="font-family:Courier">A<sub>2</sub></span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B<sub>1</sub></span><br><span style="font-family:Courier">B<sub>2</sub></span>|B:::hidden;
-
-```
 
 
 
