@@ -32,7 +32,8 @@ object Render:
       case TooBigToCompute => "---"
 
   def polyMap(labelP: String, labelQ: String): String =
-    s"$labelP → $labelQ"
+    s"$labelP ~> $labelQ"
+    // s"$labelP → $labelQ"
 
   def monomial(
     coefficient: String,
