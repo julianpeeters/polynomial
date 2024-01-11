@@ -55,20 +55,28 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 >
 >These constraints liberate a subcategory of Poly wherein multi-term
 >polynomial lenses "fit" within the shape of a monomial lens, as long as the
->folliwing conditions are met:
+>following conditions are met:
 > - the positions and directions of the polynomial are related by an ADT
 > - the number of terms in the polynomial is equal to the number of members of the ADT
 >
 >For example, `Binomial` lens can be pameterized by `Option` such that its
 >terms are exponentiated by `Some[A]` and `None.type`, and behaves as a
->"dual-laned" monomial lens:
+>"dual-laned" monomial lens.
 >
-
 
 ### `polynomial-mermaid`
 
 Certain lenses can be interpreted graphically. Given a `Mermaid` instance for a
-`PolyMap`, a [mermaid](https://mermaid.js.org/intro/) flowchart definition can be printed.
+`PolyMap`, a [mermaid](https://mermaid.js.org/intro/) flowchart definition can
+be printed, with titles and labels in the following formats:
+ - `Cardinal`: render exponents and coefficients as integer values
+ - `Custom`: render custom labels for variables, exponents and coefficients
+ - `Generic`: render exponents and coefficients as, e.g., `A` instead of a `Byte`
+ - `Specific`: render exponents and coefficients as, e.g., `Byte` instead of a `A`
+
+
+(Note: GitHub ignores formatting, please use [mermaid.live](https://mermaid.live/))
+
 
 ```scala
 import polynomial.`object`.Monomial.{Store, Interface}
@@ -78,12 +86,12 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@bfd8f7c
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@4a1a8c4c
 
 println(M.showGraph(graphFmt = Format.Specific))
 // ```mermaid
 // graph LR;
-//   A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
+//   A:::hidden---|<span style="font-family:Courier">Byte</span>|S[<span style="font-family:Courier">Boolean</span>]---|<span style="font-family:Courier">Char</span>|B:::hidden;
 // 
 // classDef empty fill:background;
 // classDef point width:0px, height:0px;
@@ -93,58 +101,9 @@ println(M.showGraph(graphFmt = Format.Specific))
 
 ```mermaid
 graph LR;
-  A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
+  A:::hidden---|<span style="font-family:Courier">Byte</span>|S[<span style="font-family:Courier">Boolean</span>]---|<span style="font-family:Courier">Char</span>|B:::hidden;
 
 classDef empty fill:background;
 classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
-(Note: if GitHub is ignoring the `:::hidden` attribute, try [mermaid.live](https://mermaid.live/))
-
-### Labels and Titles
-
-The following formats are supported:
- - `Cardinal`: render exponents and coefficients as integer values
- - `Custom`: render custom labels for variables, exponents and coefficients
- - `Generic`: render exponents and coefficients as, e.g., `A` instead of a `Byte`
- - `Specific`: render exponents and coefficients as, e.g., `Byte` instead of a `A`
-
-### Supported Lenses
-
-Built-in instances are provided for the following lenses:
-
-<details><summary>click to expand</summary>
-
-##### Example: monomial state lens `Store[S, _] ~> Interface[A, B, _]`
-```mermaid
-graph LR;
-  A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
-
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
-```
-
-##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
-```mermaid
-graph LR;
-  A:::hidden---|Byte|A2[ ]:::point
-subgraph s[ ]
-  A2:::point---MermaidPMono
-  MermaidPMono[Bytey^Byte]:::empty
-  MermaidPMono---B2
-end
-B2[ ]:::point---|Char|B:::hidden;
-
-classDef empty fill:background;
-classDef point width:0px, height:0px;
-classDef title stroke-width:0px, fill:background;
-```
-
-##### Example: binomial state lens `Store[S, _] ~> Interface[A1, B1, A2, B2, _]`
-
-
-
-
-
-</details>
