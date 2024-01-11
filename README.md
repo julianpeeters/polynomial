@@ -18,8 +18,8 @@ classDef title stroke-width:0px, fill:background;
  - libarary for Scala 3 (JS, JVM, and Native platforms)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.1.0"         // core library (required)
-"com.julianpeeters" %% "polynomial-mermaid" % "0.1.0" // mermaid integration (optional)
+"com.julianpeeters" %% "polynomial" % "0.2.0"         // core library (required)
+"com.julianpeeters" %% "polynomial-mermaid" % "0.2.0" // mermaid integration (optional)
 ```
 
 ---
@@ -62,10 +62,11 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 > - function types may not depend on just any value, but may, by exploiting Scala's subtyping of ADTs, depend on classes of values
 > - function types may not depend on just any type, but may, by exploiting Scala's match types, depend on types that abstract over arities
 >
->These constraints liberate a (full?) subcategory of Poly wherein multi-term
->polynomial lenses "fit" in a monomial lens, since the directions and positions
->of a given polynomial are themselves parameterized by a polynomial of an equal
->number of terms.
+>These constraints liberate a subcategory of Poly wherein multi-term
+>polynomial lenses "fit" within the shape of a monomial lens, as long as the
+>folliwing conditions are met:
+> - the positions and directions of the polynomial are related by an ADT
+> - the number of terms in the polynomial is equal to the number of members of the ADT
 >
 >For example, `Binomial` lens pameterized by `Option` has terms exponentiated
 >by `Some[A]` and `None.type`, such that it appears as a "dual-laned" monomial
@@ -93,7 +94,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@4d261730
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@41b2a60
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
