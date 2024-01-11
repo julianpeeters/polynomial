@@ -65,7 +65,7 @@ type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 >
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → None.type𝑦^Some[Byte] + Some[String]𝑦^None.type]:::title~~~TitleEnd[ ]:::hidden
+  TitleStart[ ]:::hidden~~~TitleBody[Booleany^Boolean → None.typey^Some[Byte] + Some[String]y^None.type]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|Some[Byte]<br>None.type|S[Boolean]---|None.type<br>Some[String]|B:::hidden;
 
 classDef empty fill:background;
@@ -86,12 +86,12 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@3f7e4153
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@7343249c
 
 println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific))
 // ```mermaid
 // graph LR;
-//   TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → Char𝑦^Byte]:::title~~~TitleEnd[ ]:::hidden
+//   TitleStart[ ]:::hidden~~~TitleBody[Booleany^Boolean → Chary^Byte]:::title~~~TitleEnd[ ]:::hidden
 //   A:::hidden---|256|S[2]---|256|B:::hidden;
 // 
 // classDef empty fill:background;
@@ -102,7 +102,7 @@ println(M.showTitledGraph(titleFmt = Format.Cardinal, graphFmt = Format.Specific
 
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → Char𝑦^Byte]:::title~~~TitleEnd[ ]:::hidden
+  TitleStart[ ]:::hidden~~~TitleBody[Booleany^Boolean → Chary^Byte]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|256|S[2]---|256|B:::hidden;
 
 classDef empty fill:background;
@@ -128,7 +128,7 @@ Built-in instances are provided for the following lenses:
 ##### Example: monomial state lens `Store[S, _] ~> Interface[A, B, _]`
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~TitleBody[Boolean𝑦^Boolean → Char𝑦^Byte]:::title~~~TitleEnd[ ]:::hidden
+  TitleStart[ ]:::hidden~~~TitleBody[Booleany^Boolean → Chary^Byte]:::title~~~TitleEnd[ ]:::hidden
   A:::hidden---|256|S[2]---|256|B:::hidden;
 
 classDef empty fill:background;
@@ -139,11 +139,11 @@ classDef title stroke-width:0px, fill:background;
 ##### Example: monomial lens `Interface[A1, B1, _] ~> Interface[A2, B2, _]`
 ```mermaid
 graph LR;
-  TitleStart[ ]:::hidden~~~~TitleBody[Byte𝑦^Byte → Char𝑦^Byte]:::title~~~~TitleEnd[ ]:::hidden
+  TitleStart[ ]:::hidden~~~~TitleBody[Bytey^Byte → Chary^Byte]:::title~~~~TitleEnd[ ]:::hidden
   A:::hidden---|256|A2[ ]:::point
 subgraph s[ ]
   A2:::point---MermaidPMono
-  MermaidPMono[256𝑦^256]:::empty
+  MermaidPMono[256y^256]:::empty
   MermaidPMono---B2
 end
 B2[ ]:::point---|256|B:::hidden;

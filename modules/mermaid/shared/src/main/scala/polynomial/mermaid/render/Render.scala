@@ -51,7 +51,7 @@ object Render:
   ): String =
     s"${monomial(coefficient1, variable1, exponent1)} + ${monomial(coefficient2, variable2, exponent2)}"    
 
-  def y: String = "𝑦"
+  def y: String = "y"//"𝑦"
 
   def title(
     p: String,
