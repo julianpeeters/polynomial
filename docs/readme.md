@@ -83,14 +83,11 @@ val M: Mermaid[F] = summon[Mermaid[F]]
 println(M.showGraph(graphFmt = Format.Specific))
 ```
 
-```scala mdoc:reset:passthrough
-import polynomial.`object`.Monomial.{Store, Interface}
-import polynomial.mermaid.{Format, Mermaid, given}
-import polynomial.morphism.~>
+```mermaid
+graph LR;
+  A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
-
-val M: Mermaid[F] = summon[Mermaid[F]]
-
-println(M.showGraph(graphFmt = Format.Specific))
+classDef empty fill:background;
+classDef point width:0px, height:0px;
+classDef title stroke-width:0px, fill:background;
 ```
