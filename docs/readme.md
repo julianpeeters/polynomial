@@ -91,3 +91,16 @@ classDef empty fill:background;
 classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
+
+
+```scala mdoc:reset:passthrough
+import polynomial.`object`.{Binomial, Monomial}
+import polynomial.mermaid.{Format, Mermaid, given}
+import polynomial.morphism.~>
+
+type F[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Byte, Char, Byte, Char, _])[Y]
+
+val M: Mermaid[F] = summon[Mermaid[F]]
+
+println(M.showGraph(graphFmt = Format.Generic))
+```

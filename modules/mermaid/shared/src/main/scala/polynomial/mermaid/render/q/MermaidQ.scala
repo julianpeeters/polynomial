@@ -100,7 +100,13 @@ object MermaidQ:
   ): MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]] =
     new MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]]:
       def graphQ[Y](p: String, paramLabelsQ: ((String, String), (String, String))): String =
-          s"A:::hidden---|${paramLabelsQ._1._1}<br>${paramLabelsQ._2._1}|${p}---|${paramLabelsQ._1._2}<br>${paramLabelsQ._2._2}|B:::hidden;"
+        s"""|A[A1]:::hidden---|${paramLabelsQ._1._1}
+            |     |    |S${p}
+            |  ---|${paramLabelsQ._1._2}|B:::hidden
+            |    ~~~
+            |  C[A2]:::hidden---|${paramLabelsQ._2._1}
+            |     |    |T${p}
+            |  ---|${paramLabelsQ._2._2}|D:::hidden;""".stripMargin
       def graphQCardinal: String => String =
         p => graphQ(p, paramLabelsCardinal)
       def graphQCustom[Y](paramLabelsQ: ((String, String), (String, String))): String => String =
