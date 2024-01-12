@@ -94,7 +94,7 @@ println(M.showGraph(graphFmt = Format.Specific))
 
 ```mermaid
 graph LR;
-  A:::hidden---|<span style="font-family:Courier">Byte</span>|S[<span style="font-family:Courier">Boolean</span>]---|<span style="font-family:Courier">Char</span>|B:::hidden;
+  A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
 
 classDef empty fill:background;
 classDef point width:0px, height:0px;
