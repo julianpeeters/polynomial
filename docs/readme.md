@@ -94,13 +94,14 @@ classDef title stroke-width:0px, fill:background;
 
 
 ```scala mdoc:reset:passthrough
-import polynomial.`object`.{Binomial, Monomial}
-import polynomial.mermaid.{Format, Mermaid, given}
+import polynomial.`object`.Monomial
+// import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
+import polynomial.product.⊗
 
-type F[Y] = (Monomial.Store[Boolean, _] ~> Binomial.Interface[Byte, Char, Byte, Char, _])[Y]
+type F[Y] = ((Monomial.Store[Boolean, _] ⊗  Monomial.Store[Boolean, _]) ~> (Monomial.Interface[Byte, Char, _] ⊗ Monomial.Interface[Byte, Char, _]))[Y]
 
-val M: Mermaid[F] = summon[Mermaid[F]]
+// val M: Mermaid[F] = summon[Mermaid[F]]
 
-println(M.showGraph(graphFmt = Format.Generic))
+// println(M.showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```

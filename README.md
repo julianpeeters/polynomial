@@ -79,7 +79,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@6755de3f
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@2658badf
 
 println(M.showGraph(graphFmt = Format.Specific))
 // ```mermaid
@@ -100,3 +100,5 @@ classDef empty fill:background;
 classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
+
+

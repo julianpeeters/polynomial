@@ -8,12 +8,12 @@ import typesize.SizeOf
 
 trait MermaidQ[Q[_]]:
   // Base constructors of the Q component of the graph
-  def graphQ[Y](p: String, paramLabelsQ: ParamLabels[Q[Y]]): String
+  def graphQ[Y](p: String, nodeLabels: (String, String), paramLabelsQ: ParamLabels[Q[Y]]): String
   // Impl constructors of the Q component of the graph, e.g. A[ ]-->B[ ]
-  def graphQCardinal: String => String
-  def graphQCustom[Y](paramLabelsQ: ParamLabels[Q[Y]]): String => String
-  def graphQGeneric[Y](paramLabelsQ: ParamLabels[Q[Y]]): String => String
-  def graphQSpecific: String => String
+  def graphQCardinal(nodeLabels: (String, String)): String => String
+  def graphQCustom[Y](nodeLabels: (String, String), paramLabelsQ: ParamLabels[Q[Y]]): String => String
+  def graphQGeneric[Y](nodeLabels: (String, String), paramLabelsQ: ParamLabels[Q[Y]]): String => String
+  def graphQSpecific(nodeLabels: (String, String)): String => String
   // Built-in coefficient labels and exponent labels, e.g., Boolean
   def paramLabelsCardinal[Y]: ParamLabels[Q[Y]]
   def paramLabelsSpecific[Y]: ParamLabels[Q[Y]]
@@ -34,16 +34,16 @@ object MermaidQ:
       SB: SizeOf[B]
     ): MermaidQ[Monomial.Interface[A, B, _]] =
     new MermaidQ[Monomial.Interface[A, B, _]]:
-      def graphQ[Y](p: String, paramLabelsQ: (String, String)) =
-        s"A:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|B:::hidden;"
-      def graphQCardinal: String => String =
-        p => graphQ(p, paramLabelsCardinal)
-      def graphQCustom[Y](paramLabelsQ: (String, String)): String => String =
-        p => graphQ(p, paramLabelsQ)
-      def graphQGeneric[Y](paramLabelsQ: (String, String)): String => String =
-        p => graphQ(p, (Font.courier(paramLabelsQ._1), Font.courier(paramLabelsQ._2)))
-      def graphQSpecific: String => String =
-        p => graphQ(p, (Font.courier(paramLabelsSpecific._1), Font.courier(paramLabelsSpecific._2)))
+      def graphQ[Y](p: String, nodeLabels: (String, String), paramLabelsQ: (String, String)) =
+        s"${nodeLabels._1}:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|${nodeLabels._2}:::hidden;"
+      def graphQCardinal(nodeLabels: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, paramLabelsCardinal)
+      def graphQCustom[Y](nodeLabels: (String, String), paramLabelsQ: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, paramLabelsQ)
+      def graphQGeneric[Y](nodeLabels: (String, String), paramLabelsQ: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, (Font.courier(paramLabelsQ._1), Font.courier(paramLabelsQ._2)))
+      def graphQSpecific(nodeLabels: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, (Font.courier(paramLabelsSpecific._1), Font.courier(paramLabelsSpecific._2)))
       def paramLabelsCardinal[Y]: (String, String) =
         (Render.cardinality(SA.size), Render.cardinality(SB.size))
       def paramLabelsSpecific[Y]: (String, String) =
@@ -65,16 +65,16 @@ object MermaidQ:
       SB: SizeOf[B]
     ): MermaidQ[Monomial.Interface[A, A => B, _]] =
     new MermaidQ[Monomial.Interface[A, A => B, _]]:
-      def graphQ[Y](p: String, paramLabelsQ: (String, String)) =
-        s"A:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|B:::hidden;"
-      def graphQCardinal: String => String =
-        p => graphQ(p, paramLabelsCardinal)
-      def graphQCustom[Y](paramLabelsQ: (String, String)): String => String =
-        p => graphQ(p, paramLabelsQ)
-      def graphQGeneric[Y](paramLabelsQ: (String, String)): String => String =
-        p => graphQ(p, (Font.courier(paramLabelsQ._1), Font.courier(paramLabelsQ._2)))
-      def graphQSpecific: String => String =
-        p => graphQ(p, (Font.courier(paramLabelsSpecific._1), Font.courier(paramLabelsSpecific._2)))
+      def graphQ[Y](p: String, nodeLabels: (String, String), paramLabelsQ: (String, String)) =
+        s"${nodeLabels._1}:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|${nodeLabels._2}:::hidden;"
+      def graphQCardinal(nodeLabels: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, paramLabelsCardinal)
+      def graphQCustom[Y](nodeLabels: (String, String), paramLabelsQ: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, paramLabelsQ)
+      def graphQGeneric[Y](nodeLabels: (String, String), paramLabelsQ: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, (Font.courier(paramLabelsQ._1), Font.courier(paramLabelsQ._2)))
+      def graphQSpecific(nodeLabels: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, (Font.courier(paramLabelsSpecific._1), Font.courier(paramLabelsSpecific._2)))
       def paramLabelsCardinal[Y]: (String, String) =
         (Render.cardinality(SA.size), Render.cardinality(SA.size) + " => " + Render.cardinality(SB.size))
       def paramLabelsSpecific[Y]: (String, String) =
@@ -99,22 +99,22 @@ object MermaidQ:
     SB2: SizeOf[B2],
   ): MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]] =
     new MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]]:
-      def graphQ[Y](p: String, paramLabelsQ: ((String, String), (String, String))): String =
-        s"""|A[A1]:::hidden---|${paramLabelsQ._1._1}
+      def graphQ[Y](p: String, nodeLabels: (String, String), paramLabelsQ: ((String, String), (String, String))): String =
+        s"""|${nodeLabels._1}[A1]:::hidden---|${paramLabelsQ._1._1}
             |     |    |S${p}
-            |  ---|${paramLabelsQ._1._2}|B:::hidden
+            |  ---|${paramLabelsQ._1._2}|${nodeLabels._2}:::hidden
             |    ~~~
             |  C[A2]:::hidden---|${paramLabelsQ._2._1}
             |     |    |T${p}
             |  ---|${paramLabelsQ._2._2}|D:::hidden;""".stripMargin
-      def graphQCardinal: String => String =
-        p => graphQ(p, paramLabelsCardinal)
-      def graphQCustom[Y](paramLabelsQ: ((String, String), (String, String))): String => String =
-        p => graphQ(p, paramLabelsQ)
-      def graphQGeneric[Y](paramLabelsQ: ((String, String), (String, String))): String => String =
-        p => graphQ(p, ((Font.courier(paramLabelsQ._1._1), Font.courier(paramLabelsQ._1._2)), (Font.courier(paramLabelsQ._2._1), Font.courier(paramLabelsQ._2._2))))
-      def graphQSpecific: String => String =
-        p => graphQ(p, paramLabelsSpecific)
+      def graphQCardinal(nodeLabels: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, paramLabelsCardinal)
+      def graphQCustom[Y](nodeLabels: (String, String), paramLabelsQ: ((String, String), (String, String))): String => String =
+        p => graphQ(p, nodeLabels, paramLabelsQ)
+      def graphQGeneric[Y](nodeLabels: (String, String), paramLabelsQ: ((String, String), (String, String))): String => String =
+        p => graphQ(p, nodeLabels, ((Font.courier(paramLabelsQ._1._1), Font.courier(paramLabelsQ._1._2)), (Font.courier(paramLabelsQ._2._1), Font.courier(paramLabelsQ._2._2))))
+      def graphQSpecific(nodeLabels: (String, String)): String => String =
+        p => graphQ(p, nodeLabels, paramLabelsSpecific)
       def paramLabelsCardinal[Y]: ((String, String), (String, String)) =
         ((Render.cardinality(SA1.size), Render.cardinality(SB1.size)), (Render.cardinality(SA2.size), Render.cardinality(SB2.size)))
       def paramLabelsSpecific[Y]: ((String, String), (String, String)) =

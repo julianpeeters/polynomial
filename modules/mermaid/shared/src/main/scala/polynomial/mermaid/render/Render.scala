@@ -51,8 +51,8 @@ object Render:
   ): String =
     s"${monomial(coefficient1, variable1, exponent1)} + ${monomial(coefficient2, variable2, exponent2)}"    
 
-  def y: String =
-    "𝑦"
+  def stacked2(_1: String, _2: String): String =
+    s"${_1}\n${_2}"
 
   def title(
     p: String,
@@ -75,6 +75,9 @@ object Render:
 
   def missingCustomLabel: String = "Please add custom labels"
 
+  def tensor(p: String, q: String): String =
+    s"$p ⊗ $q"
 
-
+  def y: String =
+    "𝑦"
     
