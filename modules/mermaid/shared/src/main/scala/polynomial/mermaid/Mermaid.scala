@@ -443,3 +443,76 @@ object Mermaid:
               .addTitle(Render.tensor(P1.polynomialSpecific, P2.polynomialSpecific), 3, Render.tensor(Q1.polynomialSpecific, Q2.polynomialSpecific), 3)
       def showTitledGraphCustom[Y](graphFmt: Format, labels: ((String, String), (String, String))): String =
         ???
+
+
+
+  given mooreTensoredMonomialToTensoredMonomial[A1, B1, A2, B2, C1, D1, C2, D2](using
+    P1: MermaidP[Monomial.Interface[A1, B1, _]],
+    P2: MermaidP[Monomial.Interface[A2, B2, _]],
+    Q1: MermaidQ[Monomial.Interface[C1, D1, _]],
+    Q2: MermaidQ[Monomial.Interface[C2, D2, _]],
+  ): Mermaid[PolyMap[Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], Monomial.Interface[C1, D1, _] ⊗ Monomial.Interface[C2, D2, _], _]] =
+    new Mermaid[PolyMap[Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], Monomial.Interface[C1, D1, _] ⊗ Monomial.Interface[C2, D2, _], _]]:
+      private val labelA1 = "A<sub>1</sub>"
+      private val labelA2 = "A<sub>2</sub>"
+      private val labelB1 = "B<sub>1</sub>"
+      private val labelB2 = "B<sub>2</sub>"
+      private val labelC1 = "C<sub>1</sub>"
+      private val labelC2 = "C<sub>2</sub>"
+      private val labelD1 = "D<sub>1</sub>"
+      private val labelD2 = "D<sub>2</sub>"
+      private val nodeA1 = "A1"
+      private val nodeA2 = "A2"
+      private val nodeB1 = "B1"
+      private val nodeB2 = "B2"
+      private val nodeC1 = "C1"
+      private val nodeC2 = "C2"
+      private val nodeD1 = "D1"
+      private val nodeD2 = "D2"
+      def showGraph(graphFmt: Format): String =
+        graphFmt match
+          case Cardinal =>
+            Render.mermaidCodeFence(Render.stacked2(
+              Q1.graphQCardinal((nodeA1, nodeB1))(P1.graphPCardinal(nodeB1, P1.polynomialCardinal)),
+              Q2.graphQCardinal((nodeA2, nodeB2))(P2.graphPCardinal(nodeB2, P2.polynomialCardinal))))
+          case Generic =>
+            Render.mermaidCodeFence(Render.stacked2(
+              Q1.graphQGeneric((nodeC1, nodeD1), (labelC1, labelD1))(P1.graphPGeneric(nodeB1, P1.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))), 
+              Q2.graphQGeneric((nodeC2, nodeD2), (labelC2, labelD2))(P2.graphPGeneric(nodeB2, P2.polynomialGeneric((labelA2, labelB2)), (labelA2, labelB2)))))
+          case Specific =>
+            Render.mermaidCodeFence(Render.stacked2(
+              Q1.graphQSpecific((nodeA1, nodeB1))(P1.graphPSpecific(nodeB1, P1.polynomialSpecific)), 
+              Q2.graphQSpecific((nodeA2, nodeB2))(P2.graphPSpecific(nodeB2, P2.polynomialSpecific))))
+      def showGraphCustom[Y](graphFmt: Format, labels: ((String, String), (String, String))): String =
+        ???
+      def showTitle(titleFmt: Format): String =
+        ???
+      def showTitleCustom[Y](labels: ((String, String), (String, String))): String =
+        ???
+      def showTitleHtml(titleFmt: Format): String =
+        ???
+      def showTitleHtmlCustom[Y](labels: ((String, String), (String, String))): String =
+        ???
+      def showTitledGraph(titleFmt: Format, graphFmt: Format): String =
+        graphFmt match
+          case Cardinal =>
+            showGraph(titleFmt)
+              .addTitle(
+                Render.tensor(P1.polynomialCardinal, P2.polynomialCardinal), 4,
+                Render.tensor(Q1.polynomialCardinal, Q2.polynomialCardinal), 4
+              )
+          case Generic =>
+            showGraph(titleFmt)
+              .addTitle(
+                Render.tensor(P1.polynomialGeneric((labelA1, labelB1)), P2.polynomialGeneric((labelA2, labelB2))), 4,
+                Render.tensor(Q1.polynomialGeneric((labelC1, labelD1)), Q2.polynomialGeneric((labelC2, labelD2))), 4
+              )
+          case Specific =>
+            showGraph(titleFmt)
+              .addTitle(
+                Render.tensor(P1.polynomialSpecific, P2.polynomialSpecific), 4,
+                Render.tensor(Q1.polynomialSpecific, Q2.polynomialSpecific), 4
+              )
+      def showTitledGraphCustom[Y](graphFmt: Format, labels: ((String, String), (String, String))): String =
+        ???
+

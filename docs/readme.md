@@ -99,9 +99,7 @@ import polynomial.`object`.Monomial
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type F[Y] = ((Monomial.Store[Boolean, _] ⊗  Monomial.Store[Boolean, _]) ~> (Monomial.Interface[Byte, Char, _] ⊗ Monomial.Interface[Byte, Char, _]))[Y]
+type F[Y] = ((Monomial.Interface[Byte, Char, _] ⊗ Monomial.Interface[Byte, Char, _]) ~> (Monomial.Interface[Boolean, Unit, _] ⊗ Monomial.Interface[Boolean, Unit, _]))[Y]
 
-// val M: Mermaid[F] = summon[Mermaid[F]]
-
-// println(M.showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
+// println(summon[Mermaid[F]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```

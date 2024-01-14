@@ -51,13 +51,13 @@ object MermaidP:
   given [A, B](using NA: NameOf[A], NB: NameOf[B], SA: SizeOf[A], SB: SizeOf[B]): MermaidP[Monomial.Interface[A, B, _]] =
     new MermaidP[Monomial.Interface[A, B, _]]:
       def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsQ: (String, String)): String =
-      s"""|A2[ ]:::point
+      s"""|A_${nodeLabels}[ ]:::point
           |subgraph s[ ]
-          |  A2:::point---MermaidPMono
-          |  MermaidPMono[${polynomialLabelP}]:::empty
-          |  MermaidPMono---B2
+          |  A_${nodeLabels}:::point---${nodeLabels}
+          |  ${nodeLabels}[${polynomialLabelP}]:::empty
+          |  ${nodeLabels}---B_${nodeLabels}
           |end
-          |B2[ ]:::point""".stripMargin
+          |B_${nodeLabels}[ ]:::point""".stripMargin
       def graphPCardinal[Y](nodeLabels: String, polynomialLabelP: String): String =
         graphP(nodeLabels, polynomialLabelP, paramLabelsCardinal)
       def graphPGeneric[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: (String, String)): String =

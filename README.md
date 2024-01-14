@@ -79,7 +79,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@2658badf
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@7cbb31e1
 
 println(M.showGraph(graphFmt = Format.Specific))
 // ```mermaid
@@ -102,3 +102,25 @@ classDef title stroke-width:0px, fill:background;
 ```
 
 
+```mermaid
+graph LR;
+  TitleStart[ ]:::hidden~~~~TitleBody[<span style="font-family:Courier">B<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>1</sub></span></sup> ⊗ <span style="font-family:Courier">B<sub>2</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>2</sub></span></sup> → <span style="font-family:Courier">D<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">C<sub>1</sub></span></sup> ⊗ <span style="font-family:Courier">D<sub>2</sub></span>𝑦<sup><span style="font-family:Courier">C<sub>2</sub></span></sup>]:::title~~~~TitleEnd[ ]:::hidden
+  C1:::hidden---|<span style="font-family:Courier">C<sub>1</sub></span>|A_B1[ ]:::point
+subgraph s[ ]
+  A_B1:::point---B1
+  B1[<span style="font-family:Courier">B<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>1</sub></span></sup>]:::empty
+  B1---B_B1
+end
+B_B1[ ]:::point---|<span style="font-family:Courier">D<sub>1</sub></span>|D1:::hidden;
+C2:::hidden---|<span style="font-family:Courier">C<sub>2</sub></span>|A_B2[ ]:::point
+subgraph s[ ]
+  A_B2:::point---B2
+  B2[<span style="font-family:Courier">B<sub>2</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>2</sub></span></sup>]:::empty
+  B2---B_B2
+end
+B_B2[ ]:::point---|<span style="font-family:Courier">D<sub>2</sub></span>|D2:::hidden;
+
+classDef empty fill:background;
+classDef point width:0px, height:0px;
+classDef title stroke-width:0px, fill:background;
+```
