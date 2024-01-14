@@ -50,7 +50,7 @@ object MermaidP:
 
   given [A, B](using NA: NameOf[A], NB: NameOf[B], SA: SizeOf[A], SB: SizeOf[B]): MermaidP[Monomial.Interface[A, B, _]] =
     new MermaidP[Monomial.Interface[A, B, _]]:
-      def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsQ: (String, String)): String =
+      def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: (String, String)): String =
       s"""|A_${nodeLabels}[ ]:::point
           |subgraph s[ ]
           |  A_${nodeLabels}:::point---${nodeLabels}

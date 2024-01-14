@@ -99,7 +99,11 @@ import polynomial.`object`.Monomial
 import polynomial.morphism.~>
 import polynomial.product.⊗
 
-type F[Y] = ((Monomial.Interface[Byte, Char, _] ⊗ Monomial.Interface[Byte, Char, _]) ~> (Monomial.Interface[Boolean, Unit, _] ⊗ Monomial.Interface[Boolean, Unit, _]))[Y]
+type Plant[Y]      = Monomial.Interface[(Byte, Char), Char, Y]
+type Controller[Y] = Monomial.Interface[Char, Char, Y]
+type System[Y]     = Monomial.Interface[Byte, Char, Y]
+
+type F[Y] = ((Plant ⊗ Controller) ~> System)[Y]
 
 // println(summon[Mermaid[F]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```

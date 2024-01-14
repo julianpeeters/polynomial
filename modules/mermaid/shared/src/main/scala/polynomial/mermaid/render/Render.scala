@@ -31,6 +31,10 @@ object Render:
       case NonFinite => "---"
       case TooBigToCompute => "---"
 
+  def feedback1(p: String, q: String): String =
+    p + s"---\n" + q
+
+
   def polyMap(labelP: String, labelQ: String): String =
     s"$labelP → $labelQ"
 
@@ -51,7 +55,7 @@ object Render:
   ): String =
     s"${monomial(coefficient1, variable1, exponent1)} + ${monomial(coefficient2, variable2, exponent2)}"    
 
-  def stacked2(_1: String, _2: String): String =
+  def tensored(_1: String, _2: String): String =
     s"${_1}\n${_2}"
 
   def title(
