@@ -68,9 +68,6 @@ be printed, with titles and labels in the following formats:
  - `Specific`: render exponents and coefficients as, e.g., `Byte` instead of a `A`
 
 
-(Note: GitHub ignores formatting, please use [mermaid.live](https://mermaid.live/))
-
-
 ```scala mdoc:reset
 import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
@@ -107,3 +104,5 @@ type F[Y] = ((Plant ⊗ Controller) ~> System)[Y]
 
 // println(summon[Mermaid[F]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```
+
+(Note: GitHub ignores formatting, please use [mermaid.live](https://mermaid.live/))
