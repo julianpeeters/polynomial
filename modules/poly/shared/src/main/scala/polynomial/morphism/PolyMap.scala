@@ -1,7 +1,7 @@
 package polynomial.morphism
 
 import polynomial.`object`.{Binomial, Monomial}
-import polynomial.product.{Tensor, ⊗}
+import polynomial.product.{Tensor, Composition, ⊗}
 
 type ~>[P[_], Q[_]] = PolyMap[P, Q, _]
 
@@ -32,6 +32,7 @@ object PolyMap:
     case (PolyMap[o, p, Y], Tensor[q, r, Y])                                            => Phi[o, Tensor[q, r, _], Y]
     case (Monomial.Store[s, Y], Binomial.Interface[a1, b1, a2, b2, Y])                  => (s => b1, s => b2)
     case (Monomial.Store[s, Y], Monomial.Interface[a, b, Y])                            => s => b
+    case (Monomial.Store[s, Y], Composition[p, q, Y])                                   => (Phi[Monomial.Store[s, _], p, Y], Phi[p, q, Y])
     case (Tensor[p, q, Y], Monomial.Interface[a1, b1, Y])                               => Phi[Tensor.DayConvolution[p, q, _], Monomial.Interface[a1, b1, _], Y]
     case (Tensor[p, q, Y], Binomial.Interface[a1, b1, a2, b2, Y])                       => Phi[Tensor.DayConvolution[p, q, _], Binomial.Interface[a1, b1, a2, b2, _], Y]
     case (Tensor[o, p, Y], Tensor[q, r, Y])                                             => Phi[Tensor.DayConvolution[o, p, _], Tensor.DayConvolution[q, r, _], Y]
@@ -43,6 +44,7 @@ object PolyMap:
     case (Monomial.Interface[a1, b1, Y], Monomial.Interface[a2, b2, Y])                 => (b1, a2) => a1
     case (Monomial.Store[s, Y], Binomial.Interface[a1, b1, a2, b2, Y])                  => ((s, a1) => s, (s, a2) => s)
     case (Monomial.Store[s, Y], Monomial.Interface[a, b, Y])                            => (s, a) => s
+    case (Monomial.Store[s, Y], Composition[p, q, Y])                                   => (s, Composition.DecomposeSharp[p, q, Y]) => s
     case (PolyMap[p, q, Y], Binomial.Interface[a3, b3, a4, b4, Y])                      => PhiSharp[p, Binomial.Interface[a3, b3, a4, b4, _], Y]
     case (PolyMap[p, q, Y], Monomial.Interface[a2, b2, Y])                              => PhiSharp[p, Monomial.Interface[a2, b2, _], Y]
     case (PolyMap[o, p, Y], Tensor[q, r, Y])                                            => PhiSharp[o, Tensor[q, r, _], Y]

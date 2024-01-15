@@ -24,12 +24,14 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 The `polynomial` library provides the following implementation of poly:
  - objects: built-in ADTs for monomial, binomial, and trinomial `Store` and `Interface` functors
  - morphisms: `PolyMap`, or `~>`, a natural transformation between polynomial functors
- - products: `Tensor`, or `⊗`, a parallel product implemented as match types
+ - products:
+   - `Composition`, or `◁`, a composition product implemented as match types
+   - `Tensor`, or `⊗`, a parallel product implemented as match types
 
 ```scala
 import polynomial.`object`.*
 import polynomial.morphism.~>
-import polynomial.product.⊗
+import polynomial.product.{◁, ⊗}
 
 type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
 type `y² + 2y`         = Binomial[Boolean, Unit, Unit, Boolean, _]
@@ -39,6 +41,7 @@ type `0`               = Monomial.Interface[Nothing, Nothing, _]
 type `1`               = Monomial.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
+type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 ```
 
 #### FAQ
@@ -76,7 +79,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@1a26ca38
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@388f51ae
 
 println(M.showGraph(graphFmt = Format.Specific))
 // ```mermaid
