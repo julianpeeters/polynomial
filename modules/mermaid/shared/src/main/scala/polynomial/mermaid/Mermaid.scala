@@ -526,7 +526,6 @@ object Mermaid:
       private val labelB = "B"
       private val labelC = "C"
       private val nodeA = "A"
-      // private val nodeB = "B"
       private val nodeC = "C"
       private val nodeP1 = "P1"
       private val nodeP2 = "P2"
@@ -539,23 +538,10 @@ object Mermaid:
               Q.graphQCardinal((nodeA, nodeC))(P1.graphPCardinal(nodeP1, P1.polynomialCardinal)),
               Q.graphQCardinal((nodeA, nodeC))(P2.graphPCardinal(nodeP2, P2.polynomialCardinal))))
           case Generic =>
-            // Render.mermaidCodeFence(Render.tensored(
-            //   Q.graphQGeneric((nodeA, nodeC), (labelA, labelC))(P1.graphPGeneric(nodeP1, P1.polynomialGeneric((labelA+labelB, labelC)), (labelA+labelB, labelC))), 
-            //   Q.graphQGeneric((nodeA, nodeC), (labelA, labelC))(P2.graphPGeneric(nodeP2, P2.polynomialGeneric((labelC, labelB)), (labelC, labelB)))))
-
-            // Render.mermaidCodeFence(Q.graphQGeneric((nodeA, nodeC), (labelA, labelC))(Render.tensored(
-            //   P1.graphPGeneric(nodeP1, P1.polynomialGeneric((labelA+labelB, labelC)), (labelA+labelB, labelC)).split(s"${nodeP1}")(1) + s"$nodeP1---$split1\nend\n$split1",
-            //   P2.graphPGeneric(nodeP2, P2.polynomialGeneric((labelC, labelB)), (labelC, labelB))
-            // )))
-
             Render.mermaidCodeFence(Q.graphQGeneric((nodeA, nodeC), (labelA, labelC))(Render.tensored(
               P1.graphPGeneric(nodeP1, P1.polynomialGeneric((labelA+labelB, labelC)), (labelA+labelB, labelC)).split(s"${nodeP1}---")(0) + s"$nodeP1---$split1[ ]:::point\nend\n$split1---${nodeP2}---|${labelB}|${nodeP1}",
               P2.graphPGeneric(nodeP2, P2.polynomialGeneric((labelC, labelB)), (labelC, labelB)).replaceAll(s"A_${nodeP2}:::point---${nodeP2}", "").split(s"${nodeP2}---")(0) + s"end\n$split1"
             )))
-              
-              // Render.tensored(
-              // Q.graphQGeneric((nodeA, nodeC), (labelA, labelC))()P1.graphPGeneric(nodeP1, P1.polynomialGeneric((labelA+labelB, labelC)), (labelA+labelB, labelC))), 
-              // Q.graphQGeneric((nodeA, nodeC), (labelA, labelC))(P2.graphPGeneric(nodeP2, P2.polynomialGeneric((labelC, labelB)), (labelC, labelB)))))
           case Specific =>
             Render.mermaidCodeFence(Render.tensored(
               Q.graphQSpecific((nodeA, nodeC))(P1.graphPSpecific(nodeP1, P1.polynomialSpecific)), 
