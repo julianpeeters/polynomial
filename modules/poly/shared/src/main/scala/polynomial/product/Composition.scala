@@ -1,7 +1,6 @@
 package polynomial.product
 
-import polynomial.`object`.{Binomial, Monomial}
-import polynomial.morphism.PolyMap
+import polynomial.`object`.Monomial
 
 type ◁[P[_], Q[_]] = Composition[P, Q, _]
 
