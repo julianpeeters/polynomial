@@ -8,11 +8,11 @@ import typesize.SizeOf
 
 trait MermaidP[P[_]]:
   // Base constructor of the P component of the graph
-  def graphP[Y](polynomialLabelP: PolynomialLabels[P[Y]], paramLabelsP: ParamLabels[P[Y]]): String
+  def graphP[Y](nodeLabels: String, polynomialLabelP: PolynomialLabels[P[Y]], paramLabelsP: ParamLabels[P[Y]]): String
   // Impl constructors of the P component of the graph e.g. A[ ]-->B[ ]
-  def graphPCardinal[Y](polynomialLabelP: PolynomialLabels[P[Y]]): String
-  def graphPGeneric[Y](polynomialLabelP: PolynomialLabels[P[Y]], paramLabelsP: ParamLabels[P[Y]]): String
-  def graphPSpecific[Y](polynomialLabelP: PolynomialLabels[P[Y]]): String
+  def graphPCardinal[Y](nodeLabels: String, polynomialLabelP: PolynomialLabels[P[Y]]): String
+  def graphPGeneric[Y](nodeLabels: String, polynomialLabelP: PolynomialLabels[P[Y]], paramLabelsP: ParamLabels[P[Y]]): String
+  def graphPSpecific[Y](nodeLabels: String, polynomialLabelP: PolynomialLabels[P[Y]]): String
   // Built-in coefficient labels and exponent labels, e.g., Boolean
   def paramLabelsCardinal[Y]: ParamLabels[P[Y]]
   def paramLabelsSpecific[Y]: ParamLabels[P[Y]]
@@ -27,14 +27,14 @@ object MermaidP:
 
   given [S](using N: NameOf[S], S: SizeOf[S]): MermaidP[Monomial.Store[S, _]] =
     new MermaidP[Monomial.Store[S, _]]:
-      def graphP[Y](polynomialLabelP: String, paramLabelsP: String): String =
-        s"S[$paramLabelsP]"
-      def graphPCardinal[Y](polynomialLabelP: String): String =
-        graphP(polynomialLabelP, paramLabelsCardinal)
-      def graphPGeneric[Y](polynomialLabelP: String, paramLabelsP: String): String =
-        graphP(polynomialLabelP, Font.courier(paramLabelsP))
-      def graphPSpecific[Y](polynomialLabelP: String): String =
-        graphP(polynomialLabelP, Font.courier(paramLabelsSpecific))
+      def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: String): String =
+        s"$nodeLabels[$paramLabelsP]"
+      def graphPCardinal[Y](nodeLabels: String, polynomialLabelP: String): String =
+        graphP(nodeLabels, polynomialLabelP, paramLabelsCardinal)
+      def graphPGeneric[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: String): String =
+        graphP(nodeLabels, polynomialLabelP, Font.courier(paramLabelsP))
+      def graphPSpecific[Y](nodeLabels: String, polynomialLabelP: String): String =
+        graphP(nodeLabels, polynomialLabelP, Font.courier(paramLabelsSpecific))
       def paramLabelsCardinal[Y]: String =
         Render.cardinality(S.size)
       def paramLabelsSpecific[Y]: String =
@@ -50,20 +50,20 @@ object MermaidP:
 
   given [A, B](using NA: NameOf[A], NB: NameOf[B], SA: SizeOf[A], SB: SizeOf[B]): MermaidP[Monomial.Interface[A, B, _]] =
     new MermaidP[Monomial.Interface[A, B, _]]:
-      def graphP[Y](polynomialLabelP: String, paramLabelsQ: (String, String)): String =
-      s"""|A2[ ]:::point
+      def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: (String, String)): String =
+      s"""|A_${nodeLabels}[ ]:::point
           |subgraph s[ ]
-          |  A2:::point---MermaidPMono
-          |  MermaidPMono[${polynomialLabelP}]:::empty
-          |  MermaidPMono---B2
+          |  A_${nodeLabels}:::point---${nodeLabels}
+          |  ${nodeLabels}[${polynomialLabelP}]:::empty
+          |  ${nodeLabels}---B_${nodeLabels}
           |end
-          |B2[ ]:::point""".stripMargin
-      def graphPCardinal[Y](polynomialLabelP: String): String =
-        graphP(polynomialLabelP, paramLabelsCardinal)
-      def graphPGeneric[Y](polynomialLabelP: String, paramLabelsP: (String, String)): String =
-        graphP(polynomialLabelP, paramLabelsP)
-      def graphPSpecific[Y](polynomialLabelP: String): String =
-         graphP(polynomialLabelP, paramLabelsSpecific)
+          |B_${nodeLabels}[ ]:::point""".stripMargin
+      def graphPCardinal[Y](nodeLabels: String, polynomialLabelP: String): String =
+        graphP(nodeLabels, polynomialLabelP, paramLabelsCardinal)
+      def graphPGeneric[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: (String, String)): String =
+        graphP(nodeLabels, polynomialLabelP, paramLabelsP)
+      def graphPSpecific[Y](nodeLabels: String, polynomialLabelP: String): String =
+         graphP(nodeLabels, polynomialLabelP, paramLabelsSpecific)
       def paramLabelsCardinal[Y]: (String, String) =
         (Render.cardinality(SA.size), Render.cardinality(SB.size))
       def paramLabelsSpecific[Y]: (String, String) =

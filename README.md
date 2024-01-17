@@ -5,12 +5,12 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 ---
 
 ### Add the dependencies:
- - library for Scala 3 (JS, JVM, and Native platforms)
+ - libraries for Scala 3 (JS, JVM, and Native platforms)
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.2.0" 
-"com.julianpeeters" %% "polynomial-mermaid" % "0.2.0"
+"com.julianpeeters" %% "polynomial" % "0.3.0" 
+"com.julianpeeters" %% "polynomial-mermaid" % "0.3.0"
 ```
 
 ---
@@ -24,21 +24,24 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 The `polynomial` library provides the following implementation of poly:
  - objects: built-in ADTs for monomial, binomial, and trinomial `Store` and `Interface` functors
  - morphisms: `PolyMap`, or `~>`, a natural transformation between polynomial functors
- - products: `Tensor`, or `⊗`, a parallel product implemented as match types
+ - products:
+   - `Composition`, or `◁`, a composition product implemented as match types
+   - `Tensor`, or `⊗`, a parallel product implemented as match types
 
 ```scala
 import polynomial.`object`.*
 import polynomial.morphism.~>
-import polynomial.product.⊗
+import polynomial.product.{◁, ⊗}
 
 type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
-type `y² + 2y`         = Binomial[Boolean, Unit, Unit, Boolean, _]
-type `y² + 2y + 1`     = Trinomial[Boolean, Unit, Unit, Boolean, Nothing, Unit, _]
+type `y² + 2y`         = Binomial.Interface[Boolean, Unit, Unit, Boolean, _]
+type `y² + 2y + 1`     = Trinomial.Interface[Boolean, Unit, Unit, Boolean, Nothing, Unit, _]
 type `2y²`             = Monomial.Store[Boolean, _]
 type `0`               = Monomial.Interface[Nothing, Nothing, _]
-type `1`               = Monomial.Interface[Unit, Nothing, _]
+type `1`               = Monomial.Interface[Unit, Unit, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
+type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 ```
 
 #### FAQ
@@ -68,9 +71,6 @@ be printed, with titles and labels in the following formats:
  - `Specific`: render exponents and coefficients as, e.g., `Byte` instead of a `A`
 
 
-(Note: GitHub ignores formatting, please use [mermaid.live](https://mermaid.live/))
-
-
 ```scala
 import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
@@ -79,7 +79,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@1a46101a
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@27d84903
 
 println(M.showGraph(graphFmt = Format.Specific))
 // ```mermaid
@@ -94,9 +94,13 @@ println(M.showGraph(graphFmt = Format.Specific))
 
 ```mermaid
 graph LR;
-  A:::hidden---|<span style="font-family:Courier">Byte</span>|S[<span style="font-family:Courier">Boolean</span>]---|<span style="font-family:Courier">Char</span>|B:::hidden;
+  A:::hidden---|Byte|S[Boolean]---|Char|B:::hidden;
 
 classDef empty fill:background;
 classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
+
+
+
+(Note: GitHub ignores formatting, please use [mermaid.live](https://mermaid.live/))
