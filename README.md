@@ -5,12 +5,12 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 ---
 
 ### Add the dependencies:
- - library for Scala 3 (JS, JVM, and Native platforms)
+ - libraries for Scala 3 (JS, JVM, and Native platforms)
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.2.0" 
-"com.julianpeeters" %% "polynomial-mermaid" % "0.2.0"
+"com.julianpeeters" %% "polynomial" % "0.3.0" 
+"com.julianpeeters" %% "polynomial-mermaid" % "0.3.0"
 ```
 
 ---
@@ -38,7 +38,7 @@ type `y² + 2y`         = Binomial[Boolean, Unit, Unit, Boolean, _]
 type `y² + 2y + 1`     = Trinomial[Boolean, Unit, Unit, Boolean, Nothing, Unit, _]
 type `2y²`             = Monomial.Store[Boolean, _]
 type `0`               = Monomial.Interface[Nothing, Nothing, _]
-type `1`               = Monomial.Interface[Unit, Nothing, _]
+type `1`               = Monomial.Interface[Unit, Unit, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
@@ -79,7 +79,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@388f51ae
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@c80206
 
 println(M.showGraph(graphFmt = Format.Specific))
 // ```mermaid

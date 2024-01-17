@@ -5,7 +5,7 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 ---
 
 ### Add the dependencies:
- - library for Scala @SCALA@ (JS, JVM, and Native platforms)
+ - libraries for Scala @SCALA@ (JS, JVM, and Native platforms)
  - mermaid integration (optional)
  
 ```scala
@@ -38,7 +38,7 @@ type `y² + 2y`         = Binomial[Boolean, Unit, Unit, Boolean, _]
 type `y² + 2y + 1`     = Trinomial[Boolean, Unit, Unit, Boolean, Nothing, Unit, _]
 type `2y²`             = Monomial.Store[Boolean, _]
 type `0`               = Monomial.Interface[Nothing, Nothing, _]
-type `1`               = Monomial.Interface[Unit, Nothing, _]
+type `1`               = Monomial.Interface[Unit, Unit, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
