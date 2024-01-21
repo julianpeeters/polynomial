@@ -35,10 +35,9 @@ import polynomial.product.{◁, ⊗}
 
 type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
 type `y² + 2y`         = Binomial.Interface[Boolean, Unit, Unit, Boolean, _]
-type `y² + 2y + 1`     = Trinomial.Interface[Boolean, Unit, Unit, Boolean, Nothing, Unit, _]
 type `2y²`             = Monomial.Store[Boolean, _]
 type `0`               = Monomial.Interface[Nothing, Nothing, _]
-type `1`               = Monomial.Interface[Unit, Unit, _]
+type `1`               = Monomial.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
@@ -58,7 +57,7 @@ type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 >
 >For example, `Binomial` lens can be pameterized by `Option` such that its
 >terms are exponentiated by `Some[A]` and `None.type`, and behaves as a
->"dual-laned" monomial lens.
+>dual-channeled monomial lens.
 
 ### `polynomial-mermaid`
 
@@ -76,11 +75,11 @@ import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Int, Int, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
-println(M.showGraph(graphFmt = Format.Specific))
+println(M.showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 ```
 
 ```mermaid

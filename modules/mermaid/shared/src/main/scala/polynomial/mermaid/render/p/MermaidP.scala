@@ -53,9 +53,9 @@ object MermaidP:
       def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: (String, String)): String =
       s"""|A_${nodeLabels}[ ]:::point
           |subgraph s[ ]
-          |  A_${nodeLabels}:::point---${nodeLabels}
-          |  ${nodeLabels}[${polynomialLabelP}]:::empty
-          |  ${nodeLabels}---B_${nodeLabels}
+          |  A_${nodeLabels}:::point---Q${nodeLabels}
+          |  Q${nodeLabels}[${polynomialLabelP}]:::empty
+          |  Q${nodeLabels}---B_${nodeLabels}
           |end
           |B_${nodeLabels}[ ]:::point""".stripMargin
       def graphPCardinal[Y](nodeLabels: String, polynomialLabelP: String): String =

@@ -229,19 +229,19 @@ object Mermaid:
       def showGraph(graphFmt: Format): String =
         graphFmt match
           case Cardinal =>
-            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(labelB1, P.polynomialCardinal)))
+            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(nodeB1, P.polynomialCardinal)))
           case Generic =>
-            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(labelB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
+            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(nodeB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
           case Specific =>
-            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(labelB1, P.polynomialSpecific)))
+            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(nodeB1, P.polynomialSpecific)))
       def showGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
-            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(labelB1, P.polynomialCardinal)))
+            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(nodeB1, P.polynomialCardinal)))
           case Generic =>
-            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(labelB1, labels._1, (labelA1, labelB1))))
+            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(nodeB1, labels._1, (labelA1, labelB1))))
           case Specific =>
-            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(labelB1, P.polynomialSpecific)))
+            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(nodeB1, P.polynomialSpecific)))
       def showTitle(titleFmt: Format): String =
         titleFmt match
           case Cardinal =>
@@ -255,52 +255,52 @@ object Mermaid:
       def showTitleHtml(titleFmt: Format): String =
         titleFmt match
           case Cardinal =>
-            Render.polyMap(P.graphPCardinal(labelB1, P.polynomialCardinal), Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(labelB1, P.polynomialCardinal)))
+            Render.polyMap(P.graphPCardinal(nodeB1, P.polynomialCardinal), Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(nodeB1, P.polynomialCardinal)))
           case Generic =>
-            Render.polyMap(P.graphPGeneric(labelB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1)), Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(labelB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
+            Render.polyMap(P.graphPGeneric(nodeB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1)), Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(nodeB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
           case Specific =>
-            Render.polyMap(P.graphPSpecific(labelB1, P.polynomialSpecific), Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(labelB1, P.polynomialSpecific)))
+            Render.polyMap(P.graphPSpecific(nodeB1, P.polynomialSpecific), Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(nodeB1, P.polynomialSpecific)))
       def showTitleHtmlCustom[Y](labels: (String, String)): String =
         Render.polyMap(labels._1, labels._2)
       def showTitledGraph(titleFmt: Format, graphFmt: Format): String =
         (titleFmt, graphFmt) match
           case (Cardinal, Cardinal) =>
-            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(labelB1, P.polynomialCardinal)))
+            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(nodeB1, P.polynomialCardinal)))
               .addTitle(P.polynomialCardinal, 4, Q.polynomialCardinal, 4)
           case (Cardinal, Generic) =>
-            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(labelB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
+            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(nodeB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
               .addTitle(P.polynomialCardinal, 4, Q.polynomialCardinal, 4)
           case (Cardinal, Specific) =>
-            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(labelB1, P.polynomialCardinal)))
+            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(nodeB1, P.polynomialCardinal)))
               .addTitle(P.polynomialSpecific, 4, Q.polynomialSpecific, 4)
           case (Generic, Cardinal) =>
-            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(labelB1, P.polynomialCardinal)))
+            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(nodeB1, P.polynomialCardinal)))
               .addTitle(P.polynomialGeneric((labelA1, labelB1)), 4, Q.polynomialGeneric((labelA2, labelB2)), 4)
           case (Generic, Generic) =>
-            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(labelB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
+            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(nodeB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
               .addTitle(P.polynomialGeneric((labelA1, labelB1)), 4, Q.polynomialGeneric((labelA2, labelB2)), 4)
           case (Generic, Specific) =>
-            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(labelB1, P.polynomialSpecific)))
+            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(nodeB1, P.polynomialSpecific)))
               .addTitle(P.polynomialGeneric((labelA1, labelB1)), 4, Q.polynomialGeneric((labelA2, labelB2)), 4)
           case (Specific, Cardinal) =>
-            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(labelB1, P.polynomialSpecific)))
+            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(nodeB1, P.polynomialSpecific)))
               .addTitle(P.polynomialSpecific, 4, Q.polynomialSpecific, 4)
           case (Specific, Generic) =>
-            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(labelB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
+            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(nodeB1, P.polynomialGeneric((labelA1, labelB1)), (labelA1, labelB1))))
               .addTitle(P.polynomialSpecific, 4, Q.polynomialSpecific, 4)
           case (Specific, Specific) =>
-            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(labelB1, P.polynomialSpecific)))
+            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(nodeB1, P.polynomialSpecific)))
               .addTitle(P.polynomialSpecific, 4, Q.polynomialSpecific, 4)
       def showTitledGraphCustom[Y](graphFmt: Format, labels: (String, String)): String =
         graphFmt match
           case Cardinal =>
-            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(labelB1, P.polynomialCardinal)))
+            Render.mermaidCodeFence(Q.graphQCardinal((nodeA1, nodeB1))(P.graphPCardinal(nodeB1, P.polynomialCardinal)))
               .addTitle(labels._1, 4, labels._2, 4)
           case Generic =>
-            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(labelB1, labels._1, (labelA1, labelB1))))
+            Render.mermaidCodeFence(Q.graphQGeneric((nodeA1, nodeB1), (labelA2, labelB2))(P.graphPGeneric(nodeB1, labels._1, (labelA1, labelB1))))
               .addTitle(labels._1, 4, labels._2, 4)
           case Specific =>
-            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(labelB1, P.polynomialSpecific)))
+            Render.mermaidCodeFence(Q.graphQSpecific((nodeA1, nodeB1))(P.graphPSpecific(nodeB1, P.polynomialSpecific)))
               .addTitle(labels._1, 4, labels._2, 4)
         
   given mooreStoreToBi[S, A1, B1, A2, B2](using
@@ -401,12 +401,12 @@ object Mermaid:
     Q2: MermaidQ[Monomial.Interface[A2, B2, _]],
   ): Mermaid[PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], _]] =
     new Mermaid[PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], _]]:
-      private val labelS1 = "S"
-      private val labelS2 = "T"
-      private val labelA1 = "A"
-      private val labelA2 = "C"
-      private val labelB1 = "B"
-      private val labelB2 = "D"
+      private val labelS1 = "S1"
+      private val labelS2 = "S2"
+      private val labelA1 = "A1"
+      private val labelA2 = "A2"
+      private val labelB1 = "B1"
+      private val labelB2 = "B2"
       private val nodeS1 = "S1"
       private val nodeS2 = "S2"
       private val nodeA1 = "A1"
