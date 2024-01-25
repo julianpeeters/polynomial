@@ -75,11 +75,11 @@ import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Int, Int, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
-println(M.showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
+println(M.showGraph(graphFmt = Format.Generic))
 ```
 
 ```mermaid

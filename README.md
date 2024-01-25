@@ -9,8 +9,8 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.3.0" 
-"com.julianpeeters" %% "polynomial-mermaid" % "0.3.0"
+"com.julianpeeters" %% "polynomial" % "0.4.0" 
+"com.julianpeeters" %% "polynomial-mermaid" % "0.4.0"
 ```
 
 ---
@@ -75,15 +75,14 @@ import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Int, Int, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@56887c6
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@5e90ebb6
 
-println(M.showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
+println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
 // graph LR;
-//   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → <span style="font-family:Courier">B</span>𝑦<sup><span style="font-family:Courier">A</span></sup>]:::title~~~TitleEnd[ ]:::hidden
 //   A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
 // 
 // classDef empty fill:background;

@@ -70,7 +70,7 @@ object andThen:
         def φ: PolyMap.Phi[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]) ~> (Monomial.Interface[(A, B), C, _] ⊗ Monomial.Interface[C, B, _]), Monomial.Interface[A, A => C, _], Y] =
           p.φ.andThen(w.φ)
         def `φ#`: PolyMap.PhiSharp[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]) ~> (Monomial.Interface[(A, B), C, _] ⊗ Monomial.Interface[C, B, _]), Monomial.Interface[A, A => C, _], Y] =
-          (s, a) => p.`φ#`(s, w.`φ#`(p.φ(s), a))            
+          (s, a) => p.`φ#`(s, w.`φ#`(p.φ(s), a))
 
   extension [S1, S2, A1, B1, A2, B2, Y] (p: PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], Y])
     @scala.annotation.targetName("andThenTensoredStoreTensoredMonoToTensoredMono")
@@ -87,19 +87,40 @@ object andThen:
     @scala.annotation.targetName("andThenTensorStoreTensorBiToBi")
     def andThen(
       w: PolyMap[Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y],
-      f: S2 => A3,
-      g: S1 => A4,
-      h: B1 => A3,
-      i: B2 => A4
+      // f: S2 => A3,
+      // g: S1 => A4,
+      // h: B1 => A3,
+      // i: B2 => A4
     ): PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y] =
       new PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y]:
         def φ: PolyMap.Phi[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y] =
           (
-            s => a1 => p.φ._1(p.`φ#`._1(s, (a1, h(p.φ._1(s)._1))))._2,
-            s => a2 => p.φ._2(p.`φ#`._2(s, (a2, i(p.φ._2(s)._1))))._2
+            p.φ._1.andThen(w.φ._1),
+            p.φ._2.andThen(w.φ._2),
+            // s => a1 => p.φ._1(p.`φ#`._1(s, (a1, h(p.φ._1(s)._1))))._2,
+            // s => a2 => p.φ._2(p.`φ#`._2(s, (a2, i(p.φ._2(s)._1))))._2
           )
         def `φ#`: PolyMap.PhiSharp[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y] =
           (
-            (s: (S1, S2), a1: A1) => p.`φ#`._1(s, (a1, f(s._2))),
-            (s: (S1, S2), a2: A2) => p.`φ#`._2(s, (a2, g(s._1)))
+            (s, a) => p.`φ#`._1(s, w.`φ#`._1(p.φ._1(s), a)),
+            (s, a) => p.`φ#`._2(s, w.`φ#`._2(p.φ._2(s), a)),
+            // (s: (S1, S2), a1: A1) => p.`φ#`._1(s, (a1, f(s._2))),
+            // (s: (S1, S2), a2: A2) => p.`φ#`._2(s, (a2, g(s._1)))
           )
+
+  extension [S1, S2, S3, A1, B1, A2, B2, A3, B3, A4, B4, Y] (
+    p: PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), Y]
+  )
+    @scala.annotation.targetName("andThenMsMsMstoMiMiMi")
+    def andThen(
+      w: PolyMap[(Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), Monomial.Interface[Unit, Unit => Unit, _], Y],
+      f: S1 => A1,
+      g: S2 => A2,
+      h: S3 => A3,
+    ): PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[Unit, Unit => Unit, _], Y] =
+      new PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[Unit, Unit => Unit, _], Y]:
+        def φ: PolyMap.Phi[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[Unit, Unit => Unit, _], Y] =
+          p.φ.andThen(w.φ)
+        def `φ#`: PolyMap.PhiSharp[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[Unit, Unit => Unit, _], Y] =
+          (s, a) => p.`φ#`(s, w.`φ#`(p.φ(s), a))
+          // (s, _) => p.`φ#`(s, ((f(s._1._1), g(s._1._2)), h(s._2)))

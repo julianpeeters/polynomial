@@ -24,7 +24,7 @@ object PolyMap:
 
   type Phi[P[_], Q[_], Y] = (P[Y], Q[Y]) match
     case (Binomial.Interface[a1, b1, a2, b2, Y], Binomial.Interface[a3, b3, a4, b4, Y]) => (b1 => b3, b2 => b4)
-    case (Binomial.Interface[a1, b1, a2, b2, Y], Monomial.Interface[a3, b3, Y])         => (b1 => b3, b2 => b3) 
+    case (Binomial.Interface[a1, b1, a2, b2, Y], Monomial.Interface[a3, b3, Y])         => (b1 => b3, b2 => b3)
     case (Monomial.Interface[a1, b1, Y], Binomial.Interface[a3, b3, a4, b4, Y])         => (b1 => b3, b1 => b4)
     case (Monomial.Interface[a1, b1, Y], Monomial.Interface[a2, b2, Y])                 => b1 => b2
     case (PolyMap[p, q, Y], Binomial.Interface[a3, b3, a4, b4, Y])                      => Phi[p, Binomial.Interface[a3, b3, a4, b4, _], Y]
@@ -33,10 +33,11 @@ object PolyMap:
     case (Monomial.Store[s, Y], Binomial.Interface[a1, b1, a2, b2, Y])                  => (s => b1, s => b2)
     case (Monomial.Store[s, Y], Monomial.Interface[a, b, Y])                            => s => b
     case (Monomial.Store[s, Y], Composition[p, q, Y])                                   => (Phi[Monomial.Store[s, _], p, Y], Phi[p, q, Y])
+    case (Tensor[p, q, Y], Monomial.Store[s1, Y])                                       => Phi[Tensor.DayConvolution[p, q, _], Monomial.Store[s1, _], Y]
     case (Tensor[p, q, Y], Monomial.Interface[a1, b1, Y])                               => Phi[Tensor.DayConvolution[p, q, _], Monomial.Interface[a1, b1, _], Y]
     case (Tensor[p, q, Y], Binomial.Interface[a1, b1, a2, b2, Y])                       => Phi[Tensor.DayConvolution[p, q, _], Binomial.Interface[a1, b1, a2, b2, _], Y]
     case (Tensor[o, p, Y], Tensor[q, r, Y])                                             => Phi[Tensor.DayConvolution[o, p, _], Tensor.DayConvolution[q, r, _], Y]
-    
+
   type PhiSharp[P[_], Q[_], Y] = (P[Y], Q[Y]) match
     case (Binomial.Interface[a1, b1, a2, b2, Y], Binomial.Interface[a3, b3, a4, b4, Y]) => ((b1, a3) => a1, (b2, a4) => a2)
     case (Binomial.Interface[a1, b1, a2, b2, Y], Monomial.Interface[a3, b3, Y])         => ((b1, a3) => a1, (b2, a3) => a2)
@@ -50,4 +51,5 @@ object PolyMap:
     case (PolyMap[o, p, Y], Tensor[q, r, Y])                                            => PhiSharp[o, Tensor[q, r, _], Y]
     case (Tensor[p, q, Y], Binomial.Interface[a1, b1, a2, b2, Y])                       => PhiSharp[Tensor.DayConvolution[p, q, _], Binomial.Interface[a1, b1, a2, b2, _], Y]
     case (Tensor[p, q, Y], Monomial.Interface[a1, b1, Y])                               => PhiSharp[Tensor.DayConvolution[p, q, _], Monomial.Interface[a1, b1, _], Y]
+    case (Tensor[p, q, Y], Monomial.Store[s1, Y])                                       => PhiSharp[Tensor.DayConvolution[p, q, _], Monomial.Store[s1, _], Y]
     case (Tensor[o, p, Y], Tensor[q, r, Y])                                             => PhiSharp[Tensor.DayConvolution[o, p, _], Tensor.DayConvolution[q, r, _], Y]
