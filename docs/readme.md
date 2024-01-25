@@ -74,8 +74,9 @@ be printed, with titles and labels in the following formats:
 import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
+import polynomial.product.⊗
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Int, Int, _])[Y]
+type F[Y] = ((Store[Boolean, _] ⊗ Store[Boolean, _]) ~> (Interface[Int, Int, _] ⊗ Interface[Int, Int, _]))[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 

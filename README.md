@@ -74,17 +74,19 @@ be printed, with titles and labels in the following formats:
 import polynomial.`object`.Monomial.{Store, Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
+import polynomial.product.⊗
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Int, Int, _])[Y]
+type F[Y] = ((Store[Boolean, _] ⊗ Store[Boolean, _]) ~> (Interface[Int, Int, _] ⊗ Interface[Int, Int, _]))[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@56887c6
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$5@1264038d
 
 println(M.showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
 // ```mermaid
 // graph LR;
-//   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S</span>𝑦<sup><span style="font-family:Courier">S</span></sup> → <span style="font-family:Courier">B</span>𝑦<sup><span style="font-family:Courier">A</span></sup>]:::title~~~TitleEnd[ ]:::hidden
-//   A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
+//   TitleStart[ ]:::hidden~~~TitleBody[<span style="font-family:Courier">S<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">S<sub>1</sub></span></sup> ⊗ <span style="font-family:Courier">S<sub>2</sub></span>𝑦<sup><span style="font-family:Courier">S<sub>2</sub></span></sup> → <span style="font-family:Courier">B<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>1</sub></span></sup> ⊗ <span style="font-family:Courier">B<sub>2</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>2</sub></span></sup>]:::title~~~TitleEnd[ ]:::hidden
+//   A1:::hidden---|<span style="font-family:Courier">A<sub>1</sub></span>|S1[<span style="font-family:Courier">S<sub>1</sub></span>]---|<span style="font-family:Courier">B<sub>1</sub></span>|B1:::hidden;
+// A2:::hidden---|<span style="font-family:Courier">A<sub>2</sub></span>|S2[<span style="font-family:Courier">S<sub>2</sub></span>]---|<span style="font-family:Courier">B<sub>2</sub></span>|B2:::hidden;
 // 
 // classDef empty fill:background;
 // classDef point width:0px, height:0px;

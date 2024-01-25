@@ -401,12 +401,12 @@ object Mermaid:
     Q2: MermaidQ[Monomial.Interface[A2, B2, _]],
   ): Mermaid[PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], _]] =
     new Mermaid[PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], _]]:
-      private val labelS1 = "S1"
-      private val labelS2 = "S2"
-      private val labelA1 = "A1"
-      private val labelA2 = "A2"
-      private val labelB1 = "B1"
-      private val labelB2 = "B2"
+      private val labelS1 = "S<sub>1</sub>"
+      private val labelS2 = "S<sub>2</sub>"
+      private val labelA1 = "A<sub>1</sub>"
+      private val labelA2 = "A<sub>2</sub>"
+      private val labelB1 = "B<sub>1</sub>"
+      private val labelB2 = "B<sub>2</sub>"
       private val nodeS1 = "S1"
       private val nodeS2 = "S2"
       private val nodeA1 = "A1"
