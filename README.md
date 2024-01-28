@@ -71,19 +71,26 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala
-import polynomial.`object`.Monomial.{Store, Interface}
+import polynomial.`object`.Monomial.Store
+import polynomial.`object`.Binomial.Interface
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Some[Byte], None.type, None.type, Some[Char], _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@5e90ebb6
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$4@3a6123bb
 
 println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
 // graph LR;
-//   A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
+//   A1[A1]:::hidden---|<span style="font-family:Courier">A<sub>1</sub></span>
+//     |SS[<span style="font-family:Courier">S</span>]
+//   ---|<span style="font-family:Courier">B<sub>1</sub></span>|A2:::hidden
+//     ~~~
+//   C[A2]:::hidden---|<span style="font-family:Courier">A<sub>2</sub></span>
+//     |TS[<span style="font-family:Courier">S</span>]
+//   ---|<span style="font-family:Courier">B<sub>2</sub></span>|D:::hidden;
 // 
 // classDef empty fill:background;
 // classDef point width:0px, height:0px;

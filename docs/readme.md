@@ -71,11 +71,12 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala mdoc:reset
-import polynomial.`object`.Monomial.{Store, Interface}
+import polynomial.`object`.Monomial.Store
+import polynomial.`object`.Binomial.Interface
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Some[Byte], None.type, None.type, Some[Char], _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
