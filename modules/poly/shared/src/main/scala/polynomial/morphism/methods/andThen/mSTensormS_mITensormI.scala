@@ -1,32 +1,10 @@
-package polynomial.morphism.methods
+package polynomial.morphism.methods.andThen
 
 import polynomial.morphism.{PolyMap, ~>}
-import polynomial.`object`.{Binomial, Monomial}
+import polynomial.`object`.Monomial
 import polynomial.product.⊗
 
-object andThen:
-
-  extension [S, A1, B1, Y] (p: PolyMap[Monomial.Store[S, _], Monomial.Interface[A1, B1, _], Y])
-    @scala.annotation.targetName("andThenStoreMonoToMono")
-    def andThen[A2, B2](
-      w: PolyMap[Monomial.Interface[A1, B1, _], Monomial.Interface[A2, B2, _], Y]
-    ): PolyMap[PolyMap[Monomial.Store[S, _], Monomial.Interface[A1, B1, _], _], Monomial.Interface[A2, B2, _], Y] =
-      new PolyMap[PolyMap[Monomial.Store[S, _], Monomial.Interface[A1, B1, _], _], Monomial.Interface[A2, B2, _], Y]:
-        def φ: PolyMap.Phi[PolyMap[Monomial.Store[S, _], Monomial.Interface[A1, B1, _], _], Monomial.Interface[A2, B2, _], Y] =
-          p.φ.andThen(w.φ)
-        def `φ#`: PolyMap.PhiSharp[PolyMap[Monomial.Store[S, _], Monomial.Interface[A1, B1, _], _], Monomial.Interface[A2, B2, _], Y] =
-          (s, a) => p.`φ#`(s, w.`φ#`(p.φ(s), a))
-
-  extension [S, A1, B1, A2, B2, Y] (p: PolyMap[Monomial.Store[S, _], Binomial.Interface[A1, B1, A2, B2, _], Y])
-    @scala.annotation.targetName("andThenStoreBiToBi")
-    def andThen(
-      w: PolyMap[Binomial.Interface[A1, B1, A2, B2, _], Binomial.Interface[A1, A1 => B1, A2, A2 => B2, _], Y]
-    ): PolyMap[PolyMap[Monomial.Store[S, _], Binomial.Interface[A1, B1, A2, B2, _], _], Binomial.Interface[A1, A1 => B1, A2, A2 => B2, _], Y] =
-      new PolyMap[PolyMap[Monomial.Store[S, _], Binomial.Interface[A1, B1, A2, B2, _], _], Binomial.Interface[A1, A1 => B1, A2, A2 => B2, _], Y]:
-        def φ: PolyMap.Phi[PolyMap[Monomial.Store[S, _], Binomial.Interface[A1, B1, A2, B2, _], _], Binomial.Interface[A1, A1 => B1, A2, A2 => B2, _], Y] =
-          (p.φ._1.andThen(w.φ._1), p.φ._2.andThen(w.φ._2))
-        def `φ#`: PolyMap.PhiSharp[PolyMap[Monomial.Store[S, _], Binomial.Interface[A1, B1, A2, B2, _], _], Binomial.Interface[A1, A1 => B1, A2, A2 => B2, _], Y] =
-          ((s, a) => p.`φ#`._1(s, a), (s, a) => p.`φ#`._2(s, a))  
+object mSTensormS_mITensormI:
 
   extension [S1, S2, A1, B1, A2, B2, Y] (p: PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], Y])
     @scala.annotation.targetName("andThenTensoredStoreTensoredMonoToMonof")
@@ -81,32 +59,4 @@ object andThen:
         def φ: PolyMap.Phi[PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], _], Monomial.Interface[A3, B3, _] ⊗ Monomial.Interface[A4, B4, _], Y] =
           p.φ.andThen(w.φ)
         def `φ#`: PolyMap.PhiSharp[PolyMap[Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _], Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _], _], Monomial.Interface[A3, B3, _] ⊗ Monomial.Interface[A4, B4, _], Y] =
-          (s, a) => p.`φ#`(s, w.`φ#`(p.φ(s), a))
-
-  extension [S1, S2, A1, B1, A2, B2, A3, B3, A4, B4, Y] (p: PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), Y])
-    @scala.annotation.targetName("andThenTensorStoreTensorBiToBi")
-    def andThen(
-      w: PolyMap[Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y],
-    ): PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y] =
-      new PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y]:
-        def φ: PolyMap.Phi[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y] =
-          (
-            p.φ._1.andThen(w.φ._1),
-            p.φ._2.andThen(w.φ._2),
-          )
-        def `φ#`: PolyMap.PhiSharp[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _]), (Binomial.Interface[A1, B1, A2, B2, _] ⊗ Binomial.Interface[A3, B3, A4, B4, _]), _], Binomial.Interface[A1, A1 => B3, A2, A2 => B4, _], Y] =
-          (
-            (s, a) => p.`φ#`._1(s, w.`φ#`._1(p.φ._1(s), a)),
-            (s, a) => p.`φ#`._2(s, w.`φ#`._2(p.φ._2(s), a)),
-          )
-
-  extension [S1, S2, S3, A1, B1, A2, B2, A3, B3, Y] (p: PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), Y])
-    @scala.annotation.targetName("andThenMsMsMstoMiMiMi")
-    def andThen[I, O](
-      w: PolyMap[(Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), Monomial.Interface[I, I => O, _], Y],
-    ): PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[I, I => O, _], Y] =
-      new PolyMap[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[I, I => O, _], Y]:
-        def φ: PolyMap.Phi[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[I, I => O, _], Y] =
-          p.φ.andThen(w.φ)
-        def `φ#`: PolyMap.PhiSharp[PolyMap[(Monomial.Store[S1, _] ⊗ Monomial.Store[S2, _] ⊗ Monomial.Store[S3, _]), (Monomial.Interface[A1, B1, _] ⊗ Monomial.Interface[A2, B2, _] ⊗ Monomial.Interface[A3, B3, _]), _], Monomial.Interface[I, I => O, _], Y] =
           (s, a) => p.`φ#`(s, w.`φ#`(p.φ(s), a))
