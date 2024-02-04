@@ -33,11 +33,11 @@ import polynomial.`object`.*
 import polynomial.morphism.~>
 import polynomial.product.{◁, ⊗}
 
-type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
-type `y² + 2y`         = Binomial.Interface[Boolean, Unit, Unit, Boolean, _]
-type `2y²`             = Monomial.Store[Boolean, _]
-type `0`               = Monomial.Interface[Nothing, Nothing, _]
-type `1`               = Monomial.Interface[Unit, Nothing, _]
+type `2y⁵¹²`           = Mono.Interface[(Byte, Boolean), Boolean, _]
+type `y² + 2y`         = Bi.Interface[Boolean, Unit, Unit, Boolean, _]
+type `2y²`             = Mono.Store[Boolean, _]
+type `0`               = Mono.Interface[Nothing, Nothing, _]
+type `1`               = Mono.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
 type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
 type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
@@ -55,7 +55,7 @@ type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 > - the positions and directions of the polynomial are related by an ADT
 > - the number of terms in the polynomial is equal to the number of members of the ADT
 >
->For example, `Binomial` lens can be pameterized by `Option` such that its
+>For example, `Bi` lens can be pameterized by `Option` such that its
 >terms are exponentiated by `Some[A]` and `None.type`, and behaves as a
 >dual-channeled monomial lens.
 
@@ -71,15 +71,15 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala
-import polynomial.`object`.Monomial.Store
-import polynomial.`object`.Binomial.Interface
+import polynomial.`object`.Mono.Store
+import polynomial.`object`.Bi.Interface
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
 type F[Y] = (Store[Boolean, _] ~> Interface[Some[Byte], None.type, None.type, Some[Char], _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$4@3a6123bb
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$4@2a26a384
 
 println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
@@ -109,4 +109,4 @@ classDef title stroke-width:0px, fill:background;
 
 
 
-(Note: GitHub ignores formatting, please use [mermaid.live](https://mermaid.live/))
+(Note: GitHub currently ignores formatting, please use [mermaid.live](https://mermaid.live/))
