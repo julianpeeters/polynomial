@@ -2,7 +2,7 @@ package polynomial.morphism
 
 import cats.Id
 import polynomial.`object`.{Bi, Mono}
-import polynomial.product.{Tensor, Composition, ⊗}
+import polynomial.product.{Tensor, Composition}
 
 type ~>[P[_], Q[_]] = PolyMap[P, Q, _]
 
