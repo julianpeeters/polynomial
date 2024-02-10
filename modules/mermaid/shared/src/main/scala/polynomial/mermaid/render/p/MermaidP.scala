@@ -2,7 +2,7 @@ package polynomial.mermaid.render.p
 
 import polynomial.mermaid.Mermaid.{ParamLabels, PolynomialLabels}
 import polynomial.mermaid.render.{Font, Render}
-import polynomial.`object`.Mono
+import polynomial.`object`.Monomial.{Interface, Store}
 import typename.NameOf
 import typesize.SizeOf
 
@@ -25,8 +25,8 @@ trait MermaidP[P[_]]:
 
 object MermaidP:
 
-  given [S](using N: NameOf[S], S: SizeOf[S]): MermaidP[Mono.Store[S, _]] =
-    new MermaidP[Mono.Store[S, _]]:
+  given [S](using N: NameOf[S], S: SizeOf[S]): MermaidP[Store[S, _]] =
+    new MermaidP[Store[S, _]]:
       def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: String): String =
         s"$nodeLabels[$paramLabelsP]"
       def graphPCardinal[Y](nodeLabels: String, polynomialLabelP: String): String =
@@ -48,8 +48,8 @@ object MermaidP:
       def variableLabel: String =
         Render.y
 
-  given [A, B](using NA: NameOf[A], NB: NameOf[B], SA: SizeOf[A], SB: SizeOf[B]): MermaidP[Mono.Interface[A, B, _]] =
-    new MermaidP[Mono.Interface[A, B, _]]:
+  given [A, B](using NA: NameOf[A], NB: NameOf[B], SA: SizeOf[A], SB: SizeOf[B]): MermaidP[Interface[A, B, _]] =
+    new MermaidP[Interface[A, B, _]]:
       def graphP[Y](nodeLabels: String, polynomialLabelP: String, paramLabelsP: (String, String)): String =
       s"""|A_${nodeLabels}[ ]:::point
           |subgraph s[ ]
