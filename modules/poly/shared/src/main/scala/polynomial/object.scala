@@ -25,9 +25,9 @@ object `object`:
   object Tri:
     sealed trait Interface[+A1, +B1, +A2, +B2, +A3, +B3, Y] extends Tri[A1, B1, A2, B2, A3, B3, Y]
     object Interface:
-      case class Term1[A1, B1, Y](yᵉˣᵖ: A1 => Y, coeff: B1) extends Tri[A1, B1, Nothing, Nothing, Nothing, Nothing, Y]
-      case class Term2[A2, B2, Y](yᵉˣᵖ: A2 => Y, coeff: B2) extends Tri[Nothing, Nothing, A2, B2, Nothing, Nothing, Y]
-      case class Term3[A3, B3, Y](yᵉˣᵖ: A3 => Y, coeff: B3) extends Tri[Nothing, Nothing, Nothing, Nothing, A3, B3, Y]
+      case class Term1[A1, B1, Y](yᵉˣᵖ: A1 => Y, coeff: B1) extends Tri.Interface[A1, B1, Nothing, Nothing, Nothing, Nothing, Y]
+      case class Term2[A2, B2, Y](yᵉˣᵖ: A2 => Y, coeff: B2) extends Tri.Interface[Nothing, Nothing, A2, B2, Nothing, Nothing, Y]
+      case class Term3[A3, B3, Y](yᵉˣᵖ: A3 => Y, coeff: B3) extends Tri.Interface[Nothing, Nothing, Nothing, Nothing, A3, B3, Y]
     sealed trait Store[+S1, +S2, +S3, Y] extends Tri[S1, S1, S2, S2, S3, S3, Y]
     object Store:
       case class Term1[S1, Y](yᵉˣᵖ: S1 => Y, coeff: S1) extends Store[S1, Nothing, Nothing, Y]
