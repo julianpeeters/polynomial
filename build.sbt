@@ -24,7 +24,7 @@ inThisBuild(List(
     "-Wvalue-discard",
     "-Ykind-projector:underscores"
   ),
-  scalaVersion := "3.3.1",
+  scalaVersion := "3.4.0",
   versionScheme := Some("semver-spec"),
 ))
 

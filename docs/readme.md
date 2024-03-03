@@ -15,10 +15,6 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 
 ---
 
-### Modules
- - [`polynomial`](#polynomial-1): objects, morphisms, products
- - [`polynomial-mermaid`](#polynomial-mermaid): print mermaid chart definitions
-
 ### `polynomial`
 
 The `polynomial` library provides the following implementation of poly:
