@@ -15,10 +15,6 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 
 ---
 
-### Modules
- - [`polynomial`](#polynomial-1): objects, morphisms, products
- - [`polynomial-mermaid`](#polynomial-mermaid): print mermaid chart definitions
-
 ### `polynomial`
 
 The `polynomial` library provides the following implementation of poly:
@@ -31,16 +27,14 @@ The `polynomial` library provides the following implementation of poly:
 ```scala mdoc
 import polynomial.`object`.*
 import polynomial.morphism.~>
-import polynomial.product.{◁, ⊗}
 
+// Example types:
 type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
-type `y² + 2y`         = Binomial.Interface[Boolean, Unit, Unit, Boolean, _]
+type `y² + 2y`         = Binomial.BiInterface[Boolean, Unit, Unit, Boolean, _]
 type `2y²`             = Monomial.Store[Boolean, _]
 type `0`               = Monomial.Interface[Nothing, Nothing, _]
 type `1`               = Monomial.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
-type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
-type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 ```
 
 #### FAQ
@@ -55,7 +49,7 @@ type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 > - the positions and directions of the polynomial are related by an ADT
 > - the number of terms in the polynomial is equal to the number of members of the ADT
 >
->For example, `Binomial` lens can be pameterized by `Option` such that its
+>For example, `Bi` lens can be pameterized by `Option` such that its
 >terms are exponentiated by `Some[A]` and `None.type`, and behaves as a
 >dual-channeled monomial lens.
 
@@ -71,7 +65,7 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala mdoc:reset
-import polynomial.`object`.Monomial.{Store, Interface}
+import polynomial.`object`.Monomial.{Interface, Store}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
@@ -92,19 +86,4 @@ classDef title stroke-width:0px, fill:background;
 ```
 
 
-```scala mdoc:reset:passthrough
-import polynomial.`object`.Monomial
-// import polynomial.mermaid.{Format, Mermaid, given}
-import polynomial.morphism.~>
-import polynomial.product.⊗
-
-type Plant[Y]      = Monomial.Interface[(Byte, Char), Char, Y]
-type Controller[Y] = Monomial.Interface[Char, Char, Y]
-type System[Y]     = Monomial.Interface[Byte, Char, Y]
-
-type F[Y] = ((Plant ⊗ Controller) ~> System)[Y]
-
-// println(summon[Mermaid[F]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
-```
-
-(Note: GitHub ignores formatting, please use [mermaid.live](https://mermaid.live/))
+(Note: GitHub currently ignores formatting, please use [mermaid.live](https://mermaid.live/))

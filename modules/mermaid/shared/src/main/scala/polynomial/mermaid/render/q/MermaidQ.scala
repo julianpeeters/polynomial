@@ -2,7 +2,8 @@ package polynomial.mermaid.render.q
 
 import polynomial.mermaid.Mermaid.ParamLabels
 import polynomial.mermaid.render.{Font, Render}
-import polynomial.`object`.{Binomial, Monomial}
+import polynomial.`object`.Binomial.BiInterface
+import polynomial.`object`.Monomial.Interface
 import typename.NameOf
 import typesize.SizeOf
 
@@ -32,8 +33,8 @@ object MermaidQ:
       NB: NameOf[B],
       SA: SizeOf[A],
       SB: SizeOf[B]
-    ): MermaidQ[Monomial.Interface[A, B, _]] =
-    new MermaidQ[Monomial.Interface[A, B, _]]:
+    ): MermaidQ[Interface[A, B, _]] =
+    new MermaidQ[Interface[A, B, _]]:
       def graphQ[Y](p: String, nodeLabels: (String, String), paramLabelsQ: (String, String)) =
         s"${nodeLabels._1}:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|${nodeLabels._2}:::hidden;"
       def graphQCardinal(nodeLabels: (String, String)): String => String =
@@ -63,8 +64,8 @@ object MermaidQ:
       NB: NameOf[B],
       SA: SizeOf[A],
       SB: SizeOf[B]
-    ): MermaidQ[Monomial.Interface[A, A => B, _]] =
-    new MermaidQ[Monomial.Interface[A, A => B, _]]:
+    ): MermaidQ[Interface[A, A => B, _]] =
+    new MermaidQ[Interface[A, A => B, _]]:
       def graphQ[Y](p: String, nodeLabels: (String, String), paramLabelsQ: (String, String)) =
         s"${nodeLabels._1}:::hidden---|${paramLabelsQ._1}|${p}---|${paramLabelsQ._2}|${nodeLabels._2}:::hidden;"
       def graphQCardinal(nodeLabels: (String, String)): String => String =
@@ -97,8 +98,8 @@ object MermaidQ:
     SB1: SizeOf[B1],
     SA2: SizeOf[A2],
     SB2: SizeOf[B2],
-  ): MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]] =
-    new MermaidQ[Binomial.Interface[A1, B1, A2, B2, _]]:
+  ): MermaidQ[BiInterface[A1, B1, A2, B2, _]] =
+    new MermaidQ[BiInterface[A1, B1, A2, B2, _]]:
       def graphQ[Y](p: String, nodeLabels: (String, String), paramLabelsQ: ((String, String), (String, String))): String =
         s"""|${nodeLabels._1}[A1]:::hidden---|${paramLabelsQ._1._1}
             |     |    |S${p}
