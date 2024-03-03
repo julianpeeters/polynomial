@@ -21,7 +21,8 @@ The `polynomial` library provides the following implementation of poly:
  - objects: built-in ADTs for monomial, binomial, and trinomial `Store` and `Interface` functors
  - morphisms: `PolyMap`, or `~>`, a natural transformation between polynomial functors
  - products:
-   - `Composition`, or `◁`, a composition product implemented as match types
+   - `Cartesian`, or `×`, a categorical product implemented as match types
+   - `Composition`, or `◁`, a substitution product implemented as match types
    - `Tensor`, or `⊗`, a parallel product implemented as match types
 
 ```scala
@@ -72,7 +73,7 @@ import polynomial.morphism.~>
 type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@3fc89d02
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@22bdef11
 
 println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
