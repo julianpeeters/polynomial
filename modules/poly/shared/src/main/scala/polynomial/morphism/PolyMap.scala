@@ -32,7 +32,6 @@ object PolyMap:
   type Phi[P[_], Q[_], Y] = (P[Y], Q[Y]) match
     case (BiInterface[a1, b1, a2, b2, Y], BiInterface[a3, b3, a4, b4, Y]) => (b1 => b3, b2 => b4)
     case (BiInterface[a1, b1, a2, b2, Y], Interface[a3, b3, Y])           => (b1 => b3, b2 => b3)
-    // case (Cartesian[p, q, Y], Interface[a, b, Y])                         => Phi[Cartesian.And[p, q, _], Interface[a, b, _], Y]
     case (Cartesian[p, q, Y], Interface[a, b, Y])                         => Cartesian.And[p, q, Y] => b
     case (Interface[a1, b1, Y], BiInterface[a3, b3, a4, b4, Y])           => (b1 => b3, b1 => b4)
     case (Interface[a1, b1, Y], Interface[a2, b2, Y])                     => b1 => b2
@@ -51,7 +50,6 @@ object PolyMap:
   type PhiSharp[P[_], Q[_], Y] = (P[Y], Q[Y]) match
     case (BiInterface[a1, b1, a2, b2, Y], BiInterface[a3, b3, a4, b4, Y]) => ((b1, a3) => a1, (b2, a4) => a2)
     case (BiInterface[a1, b1, a2, b2, Y], Interface[a3, b3, Y])           => ((b1, a3) => a1, (b2, a3) => a2)
-    // case (Cartesian[p, q, Y], Interface[a, b, Y])                         => (Cartesian.And[p, q, Y], a) => Cartesian.AndSharp[p, q, Y]
     case (Cartesian[p, q, Y], Interface[a, b, Y])                         => (Cartesian.And[p, q, Y], a) => Cartesian.AndSharp[p, q, Y]
     case (Interface[a1, b1, Y], BiInterface[a2, b2, a3, b3, Y])           => ((b1, a2) => a1, (b1, a3) => a1)
     case (Interface[a1, b1, Y], Interface[a2, b2, Y])                     => (b1, a2) => a1
