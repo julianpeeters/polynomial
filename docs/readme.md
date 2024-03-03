@@ -27,16 +27,14 @@ The `polynomial` library provides the following implementation of poly:
 ```scala mdoc
 import polynomial.`object`.*
 import polynomial.morphism.~>
-import polynomial.product.{◁, ⊗}
 
-type `2y⁵¹²`           = Mono.Interface[(Byte, Boolean), Boolean, _]
-type `y² + 2y`         = Bi.Interface[Boolean, Unit, Unit, Boolean, _]
-type `2y²`             = Mono.Store[Boolean, _]
-type `0`               = Mono.Interface[Nothing, Nothing, _]
-type `1`               = Mono.Interface[Unit, Nothing, _]
+// Example types:
+type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
+type `y² + 2y`         = Binomial.BiInterface[Boolean, Unit, Unit, Boolean, _]
+type `2y²`             = Monomial.Store[Boolean, _]
+type `0`               = Monomial.Interface[Nothing, Nothing, _]
+type `1`               = Monomial.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
-type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
-type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 ```
 
 #### FAQ
@@ -67,12 +65,11 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala mdoc:reset
-import polynomial.`object`.Mono.Store
-import polynomial.`object`.Bi.Interface
+import polynomial.`object`.Monomial.{Interface, Store}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Some[Byte], None.type, None.type, Some[Char], _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
@@ -88,20 +85,5 @@ classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
 
-
-```scala mdoc:reset:passthrough
-import polynomial.`object`.Mono
-// import polynomial.mermaid.{Format, Mermaid, given}
-import polynomial.morphism.~>
-import polynomial.product.⊗
-
-type Plant[Y]      = Mono.Interface[(Byte, Char), Char, Y]
-type Controller[Y] = Mono.Interface[Char, Char, Y]
-type System[Y]     = Mono.Interface[Byte, Char, Y]
-
-type F[Y] = ((Plant ⊗ Controller) ~> System)[Y]
-
-// println(summon[Mermaid[F]].showTitledGraph(titleFmt = Format.Generic, graphFmt = Format.Generic))
-```
 
 (Note: GitHub currently ignores formatting, please use [mermaid.live](https://mermaid.live/))

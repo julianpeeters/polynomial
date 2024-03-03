@@ -9,15 +9,11 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.4.0" 
-"com.julianpeeters" %% "polynomial-mermaid" % "0.4.0"
+"com.julianpeeters" %% "polynomial" % "0.5.0" 
+"com.julianpeeters" %% "polynomial-mermaid" % "0.5.0"
 ```
 
 ---
-
-### Modules
- - [`polynomial`](#polynomial-1): objects, morphisms, products
- - [`polynomial-mermaid`](#polynomial-mermaid): print mermaid chart definitions
 
 ### `polynomial`
 
@@ -31,16 +27,14 @@ The `polynomial` library provides the following implementation of poly:
 ```scala
 import polynomial.`object`.*
 import polynomial.morphism.~>
-import polynomial.product.{◁, ⊗}
 
-type `2y⁵¹²`           = Mono.Interface[(Byte, Boolean), Boolean, _]
-type `y² + 2y`         = Bi.Interface[Boolean, Unit, Unit, Boolean, _]
-type `2y²`             = Mono.Store[Boolean, _]
-type `0`               = Mono.Interface[Nothing, Nothing, _]
-type `1`               = Mono.Interface[Unit, Nothing, _]
+// Example types:
+type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
+type `y² + 2y`         = Binomial.BiInterface[Boolean, Unit, Unit, Boolean, _]
+type `2y²`             = Monomial.Store[Boolean, _]
+type `0`               = Monomial.Interface[Nothing, Nothing, _]
+type `1`               = Monomial.Interface[Unit, Nothing, _]
 type `y² + 2y → 2y⁵¹²` = (`y² + 2y` ~> `2y⁵¹²`)[_]
-type `4y⁴`             = (`2y²` ⊗ `2y²`)[_]
-type `8y⁴`             = (`2y²` ◁ `2y²`)[_]
 ```
 
 #### FAQ
@@ -71,26 +65,19 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala
-import polynomial.`object`.Mono.Store
-import polynomial.`object`.Bi.Interface
+import polynomial.`object`.Monomial.{Interface, Store}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Some[Byte], None.type, None.type, Some[Char], _])[Y]
+type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$4@2a26a384
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@3fc89d02
 
 println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
 // graph LR;
-//   A1[A1]:::hidden---|<span style="font-family:Courier">A<sub>1</sub></span>
-//     |SS[<span style="font-family:Courier">S</span>]
-//   ---|<span style="font-family:Courier">B<sub>1</sub></span>|A2:::hidden
-//     ~~~
-//   C[A2]:::hidden---|<span style="font-family:Courier">A<sub>2</sub></span>
-//     |TS[<span style="font-family:Courier">S</span>]
-//   ---|<span style="font-family:Courier">B<sub>2</sub></span>|D:::hidden;
+//   A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
 // 
 // classDef empty fill:background;
 // classDef point width:0px, height:0px;
@@ -106,7 +93,6 @@ classDef empty fill:background;
 classDef point width:0px, height:0px;
 classDef title stroke-width:0px, fill:background;
 ```
-
 
 
 (Note: GitHub currently ignores formatting, please use [mermaid.live](https://mermaid.live/))
