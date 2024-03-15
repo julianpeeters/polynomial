@@ -9,8 +9,8 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "@VERSION@" 
-"com.julianpeeters" %% "polynomial-mermaid" % "@VERSION@"
+"com.julianpeeters" %% "polynomial" % "@VERSION@"         // required
+"com.julianpeeters" %% "polynomial-mermaid" % "@VERSION@" // optional
 ```
 
 ---
@@ -29,7 +29,7 @@ The `polynomial` library provides the following implementation of poly:
 import polynomial.`object`.*
 import polynomial.morphism.~>
 
-// Example types:
+// Examples
 type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
 type `y² + 2y`         = Binomial.BiInterface[Boolean, Unit, Unit, Boolean, _]
 type `2y²`             = Monomial.Store[Boolean, _]
