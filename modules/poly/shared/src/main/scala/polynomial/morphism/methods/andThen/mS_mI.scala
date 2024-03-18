@@ -3,6 +3,7 @@ package polynomial.morphism.methods.andThen
 import cats.Id
 import polynomial.morphism.PolyMap
 import polynomial.`object`.Monomial.{Interface, Store}
+import cats.FlatMap
 
 object mS_mI:
 
@@ -17,13 +18,13 @@ object mS_mI:
         def `φ#`: PolyMap.PhiSharp[PolyMap[Store[Id[S], _], Interface[Id[A1], Id[B1], _], _], Interface[Id[A2], Id[B2], _], Y] =
           (s, a) => p.`φ#`(s, w.`φ#`(p.φ(s), a))
 
-  extension [S, A, B, Y] (p: PolyMap[Store[Option[S], _], Interface[A, Option[B], _], Y])
-    @scala.annotation.targetName("andThenStoreMonoToMonoOptionPrism")
+  extension [F[_]: FlatMap, S, A, B, Y] (p: PolyMap[Store[F[S], _], Interface[A, F[B], _], Y])
+    @scala.annotation.targetName("andThenStoreMonoToMonoFPrism")
     def andThen(
-      w: PolyMap[Interface[A, Id[B], _], Interface[A, A => Option[B], _], Y]
-    ): PolyMap[PolyMap[Store[Option[S], _], Interface[A, Id[B], _], _], Interface[A, A => Option[B], _], Y] =
-      new PolyMap[PolyMap[Store[Option[S], _], Interface[A, Id[B], _], _], Interface[A, A => Option[B], _], Y]:
-        def φ: PolyMap.Phi[PolyMap[Store[Option[S], _], Interface[A, Id[B], _], _], Interface[A, A => Option[B], _], Y] =
-          s => a2 => p.φ(s).flatMap(b1 => w.φ(b1)(a2))
-        def `φ#`: PolyMap.PhiSharp[PolyMap[Store[Option[S], _], Interface[A, Id[B], _], _], Interface[A, A => Option[B], _], Y] =
-          (s, a) => p.φ(s).flatMap(b1 => p.`φ#`(s, w.`φ#`(b1, a)))
+      w: PolyMap[Interface[A, Id[B], _], Interface[A, A => F[B], _], Y]
+    ): PolyMap[PolyMap[Store[F[S], _], Interface[A, Id[B], _], _], Interface[A, A => F[B], _], Y] =
+      new PolyMap[PolyMap[Store[F[S], _], Interface[A, Id[B], _], _], Interface[A, A => F[B], _], Y]:
+        def φ: PolyMap.Phi[PolyMap[Store[F[S], _], Interface[A, Id[B], _], _], Interface[A, A => F[B], _], Y] =
+          s => a2 => FlatMap[F].flatMap(p.φ(s))(b1 => w.φ(b1)(a2))
+        def `φ#`: PolyMap.PhiSharp[PolyMap[Store[F[S], _], Interface[A, Id[B], _], _], Interface[A, A => F[B], _], Y] =
+          (s, a) => FlatMap[F].flatMap(p.φ(s))(b1 => p.`φ#`(s, w.`φ#`(b1, a)))
