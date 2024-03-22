@@ -2,7 +2,7 @@ package polynomial.morphism
 
 import cats.Id
 import polynomial.`object`.Binomial.BiInterface
-import polynomial.`object`.Monomial.{Interface, Store}
+import polynomial.`object`.Monomial.{Interface, Store, StoreF}
 import polynomial.product.{Cartesian, Composition, Tensor}
 
 type ~>[P[_], Q[_]] = PolyMap[P, Q, _]
@@ -31,6 +31,7 @@ object PolyMap:
     case (PolyMap[o, p, Y], Tensor[q, r, Y])                              => Phi[o, Tensor[q, r, _], Y]
     case (Store[s, Y], BiInterface[a1, b1, a2, b2, Y])                    => (s => b1, s => b2)
     case (Store[s, Y], Interface[a, b, Y])                                => s => b
+    case (StoreF[f, s, Y], Interface[a, b, Y])                            => s => b
     case (Store[s, Y], Composition[p, q, Y])                              => (Phi[Store[s, _], p, Y], Phi[p, q, Y])
 
   type PhiSharp[P[_], Q[_], Y] = (Eval[P, Y], Eval[Q, Y]) match
@@ -40,6 +41,7 @@ object PolyMap:
     case (Interface[a1, b1, Y], Interface[a2, b2, Y])                     => (b1, a2) => a1
     case (Store[s, Y], BiInterface[a1, b1, a2, b2, Y])                    => ((s, a1) => s, (s, a2) => s)
     case (Store[s, Y], Interface[a, b, Y])                                => (s, a) => s
+    case (StoreF[f, s, Y], Interface[a, b, Y])                            => (s, a) => f[s]
     case (Store[s, Y], Composition[p, q, Y])                              => (s, Composition.DecomposeSharp[p, q, Y]) => s
     case (PolyMap[p, q, Y], BiInterface[a3, b3, a4, b4, Y])               => PhiSharp[p, BiInterface[a3, b3, a4, b4, _], Y]
     case (PolyMap[p, q, Y], Interface[a2, b2, Y])                         => PhiSharp[p, Interface[a2, b2, _], Y]
@@ -51,6 +53,7 @@ object PolyMap:
     case Interface[a, b, Y]             => Interface[a, b, Y]
     case PolyMap[p, q, Y]               => PolyMap[p, q, Y]
     case Store[s, Y]                    => Store[s, Y]
+    case StoreF[f, s, Y]                => StoreF[f, s, Y]
     case Tensor[p, q, Y]                => Tensor.DayConvolution[Eval[p, _], Eval[q, _], Y]
 
   export polynomial.morphism.methods.andThen.mS_bI.*
