@@ -5,7 +5,7 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 ---
 
 ### Add the dependencies:
- - libraries for Scala 3 (JS, JVM, and Native platforms)
+ - libraries for Scala 3.4+ (JS, JVM, and Native platforms)
  - mermaid integration (optional)
  
 ```scala
@@ -73,7 +73,7 @@ import polynomial.morphism.~>
 type F[Y] = (Interface[Byte, Char, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$3@3e0798d2
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$3@3b6728e1
 
 println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
