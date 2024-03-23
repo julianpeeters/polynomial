@@ -9,8 +9,8 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.5.0"         // required
-"com.julianpeeters" %% "polynomial-mermaid" % "0.5.0" // optional
+"com.julianpeeters" %% "polynomial" % "0.6.0"         // required
+"com.julianpeeters" %% "polynomial-mermaid" % "0.6.0" // optional
 ```
 
 ---
@@ -73,7 +73,7 @@ import polynomial.morphism.~>
 type F[Y] = (Interface[Byte, Char, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$3@3b6728e1
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$3@49cbc7e8
 
 println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
