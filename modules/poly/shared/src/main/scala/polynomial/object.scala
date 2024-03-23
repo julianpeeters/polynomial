@@ -7,6 +7,7 @@ object `object`:
   object Monomial:
     case class Interface[A, B, Y](yᵉˣᵖ: A => Y, coeff: B) extends Monomial[A, B, Y]
     case class Store[S, Y](yᵉˣᵖ: S => Y, coeff: S) extends Monomial[S, S, Y]
+    case class StoreF[F[_], S, Y](yᵉˣᵖ: F[S] => Y, coeff: S) extends Monomial[F[S], S, Y]
 
   // B₁yᴬ¹ + B₂yᴬ²
   sealed trait Binomial[+A1, +B1, +A2, +B2, Y]

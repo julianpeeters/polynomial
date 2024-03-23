@@ -8,7 +8,7 @@ import polynomial.mermaid.render.{Render, addTitle}
 import polynomial.morphism.PolyMap
 import polynomial.`object`.Binomial.BiInterface
 import polynomial.`object`.Monomial.{Interface, Store}
-import polynomial.product.{Tensor, ⊗}
+import polynomial.product.{Cartesian, Tensor, ⊗}
 
 trait Mermaid[F[_]]:
   def showGraph(graphFmt: Format): String
@@ -17,8 +17,8 @@ trait Mermaid[F[_]]:
   def showTitleCustom[Y](labels: CustomLabels[F[Y]]): String
   def showTitleHtml(titleFmt: Format): String
   def showTitleHtmlCustom[Y](labels: CustomLabels[F[Y]]): String
-  def showTitledGraph(titleFmt: Format, graphFmt: Format): String
-  def showTitledGraphCustom[Y](graphFmt: Format, labels: CustomLabels[F[Y]]): String
+  // def showTitledGraph(titleFmt: Format, graphFmt: Format): String
+  // def showTitledGraphCustom[Y](graphFmt: Format, labels: CustomLabels[F[Y]]): String
 
 object Mermaid:
 
@@ -30,6 +30,7 @@ object Mermaid:
     case (Store[s1, y1], Store[s2, y2]) => (String, String)
     case (Tensor[o, p, y1], Interface[q, r, y2]) => (CustomLabels[(o[y1], p[y1])], String)
     case (Tensor[o, p, y1], Tensor[q, r, y2]) => (CustomLabels[(o[y1], p[y1])], CustomLabels[(q[y2], r[y2])])
+    case (Cartesian[o, p, y1], Cartesian[q, r, y2]) => (CustomLabels[(o[y1], p[y1])], CustomLabels[(q[y2], r[y2])])
 
   type ParamLabels[X] = X match
     case Interface[a, b, y] => (String, String)

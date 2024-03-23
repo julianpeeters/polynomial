@@ -52,7 +52,7 @@ lazy val docs = project.in(file("docs/gitignored"))
   .settings(
     mdocOut := file("."),
     mdocVariables := Map(
-      "SCALA" -> crossScalaVersions.value.map(e => e.takeWhile(_ != '.')).mkString(", "),
+      "SCALA" -> crossScalaVersions.value.map(e => e.reverse.dropWhile(_ != '.').drop(1).reverse + "+").mkString(", "),
       "VERSION" -> version.value.takeWhile(_ != '+'),
     )
   )

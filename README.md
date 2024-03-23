@@ -5,12 +5,12 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
 ---
 
 ### Add the dependencies:
- - libraries for Scala 3 (JS, JVM, and Native platforms)
+ - libraries for Scala 3.4+ (JS, JVM, and Native platforms)
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "0.5.0" 
-"com.julianpeeters" %% "polynomial-mermaid" % "0.5.0"
+"com.julianpeeters" %% "polynomial" % "0.6.0"         // required
+"com.julianpeeters" %% "polynomial-mermaid" % "0.6.0" // optional
 ```
 
 ---
@@ -21,14 +21,15 @@ The `polynomial` library provides the following implementation of poly:
  - objects: built-in ADTs for monomial, binomial, and trinomial `Store` and `Interface` functors
  - morphisms: `PolyMap`, or `~>`, a natural transformation between polynomial functors
  - products:
-   - `Composition`, or `◁`, a composition product implemented as match types
+   - `Cartesian`, or `×`, a categorical product implemented as match types
+   - `Composition`, or `◁`, a substitution product implemented as match types
    - `Tensor`, or `⊗`, a parallel product implemented as match types
 
 ```scala
 import polynomial.`object`.*
 import polynomial.morphism.~>
 
-// Example types:
+// Examples
 type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
 type `y² + 2y`         = Binomial.BiInterface[Boolean, Unit, Unit, Boolean, _]
 type `2y²`             = Monomial.Store[Boolean, _]
@@ -65,19 +66,25 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala
-import polynomial.`object`.Monomial.{Interface, Store}
+import polynomial.`object`.Monomial.{Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
+type F[Y] = (Interface[Byte, Char, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
-// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$1@3fc89d02
+// M: Mermaid[F] = polynomial.mermaid.Mermaid$$anon$3@49cbc7e8
 
 println(M.showGraph(graphFmt = Format.Generic))
 // ```mermaid
 // graph LR;
-//   A:::hidden---|<span style="font-family:Courier">A</span>|S[<span style="font-family:Courier">S</span>]---|<span style="font-family:Courier">B</span>|B:::hidden;
+//   A1:::hidden---|<span style="font-family:Courier">A<sub>2</sub></span>|A_B1[ ]:::point
+// subgraph s[ ]
+//   A_B1:::point---QB1
+//   QB1[<span style="font-family:Courier">B<sub>1</sub></span>𝑦<sup><span style="font-family:Courier">A<sub>1</sub></span></sup>]:::empty
+//   QB1---B_B1
+// end
+// B_B1[ ]:::point---|<span style="font-family:Courier">B<sub>2</sub></span>|B1:::hidden;
 // 
 // classDef empty fill:background;
 // classDef point width:0px, height:0px;

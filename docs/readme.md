@@ -9,8 +9,8 @@ Based on the polynomial functors described in [Niu and Spivak](https://topos.sit
  - mermaid integration (optional)
  
 ```scala
-"com.julianpeeters" %% "polynomial" % "@VERSION@" 
-"com.julianpeeters" %% "polynomial-mermaid" % "@VERSION@"
+"com.julianpeeters" %% "polynomial" % "@VERSION@"         // required
+"com.julianpeeters" %% "polynomial-mermaid" % "@VERSION@" // optional
 ```
 
 ---
@@ -21,14 +21,15 @@ The `polynomial` library provides the following implementation of poly:
  - objects: built-in ADTs for monomial, binomial, and trinomial `Store` and `Interface` functors
  - morphisms: `PolyMap`, or `~>`, a natural transformation between polynomial functors
  - products:
-   - `Composition`, or `◁`, a composition product implemented as match types
+   - `Cartesian`, or `×`, a categorical product implemented as match types
+   - `Composition`, or `◁`, a substitution product implemented as match types
    - `Tensor`, or `⊗`, a parallel product implemented as match types
 
 ```scala mdoc
 import polynomial.`object`.*
 import polynomial.morphism.~>
 
-// Example types:
+// Examples
 type `2y⁵¹²`           = Monomial.Interface[(Byte, Boolean), Boolean, _]
 type `y² + 2y`         = Binomial.BiInterface[Boolean, Unit, Unit, Boolean, _]
 type `2y²`             = Monomial.Store[Boolean, _]
@@ -65,11 +66,11 @@ be printed, with titles and labels in the following formats:
 
 
 ```scala mdoc:reset
-import polynomial.`object`.Monomial.{Interface, Store}
+import polynomial.`object`.Monomial.{Interface}
 import polynomial.mermaid.{Format, Mermaid, given}
 import polynomial.morphism.~>
 
-type F[Y] = (Store[Boolean, _] ~> Interface[Byte, Char, _])[Y]
+type F[Y] = (Interface[Byte, Char, _] ~> Interface[Byte, Char, _])[Y]
 
 val M: Mermaid[F] = summon[Mermaid[F]]
 
